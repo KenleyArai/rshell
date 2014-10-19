@@ -131,6 +131,12 @@ bool run_command(string &input, char &conn)
       if(status > 0)
         return false;
     }
+
+    if(conn == '|')
+    {
+      if(status <= 0)
+        return false;
+    }
   }
 
   return true;
