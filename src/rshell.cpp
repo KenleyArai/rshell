@@ -124,6 +124,8 @@ bool run_command(string &input, char &conn)
   {
     wait(&status);
 
+    tokens.clear();
+
     if(conn == '&')
     {
       if(status > 0)
