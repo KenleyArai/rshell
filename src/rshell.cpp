@@ -1,8 +1,11 @@
+//C++ libs
 #include <iostream>
 #include <string>
 #include <queue>
 #include <vector>
 #include <algorithm>
+
+//C libs
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -16,8 +19,6 @@ using namespace std;
 const string cmd_delimiter = ";|&#";
 
 void splice_input(queue<string> &cmds, queue<char> &conns, const string &input);
-string get_input(const string &input, int &start, int &end);
-int find_delimiter(const string &input, int &start);
 bool run_command(string &input, char &conn);
 void tokenize(vector<char*> &comms, string &input);
 
@@ -29,41 +30,51 @@ int main()
   queue<char> connectors;
   bool running = true;
 
+  //Continue prompting
   while(1)
   {
     cout << "$ ";
     getline(cin, input);
     splice_input(commands, connectors, input);
 
+    //After getting input from the user begin dequeing 
+    //until the queue of commands is empty or logic
+    //returns to stop running
     while(!commands.empty() && running)
     {
+      //Get command from queue
       input = commands.front();
       commands.pop();
 
+      //Get connector from queue
       if(!connectors.empty())
       {
         logic = connectors.front();
         connectors.pop();
       }
 
+      //Check if input is exit
+      //And begin handling command
       if(input.find("exit") == string::npos)
         running = run_command(input, logic);
       else
         exit(1);
-
+      
+      //Clear queues
       if(!running)
       {
         connectors = queue<char>();
         commands = queue<string>();
       }
     }
+    //Reset running
     running = true;
-
   }
 
   return 0;
 }
 
+//Splits the commands and connectors into seperate queues.
 void splice_input(queue<string> &cmds, queue<char> &conns, const string &input)
 {
   int pos = 0;
@@ -124,21 +135,31 @@ bool run_command(string &input, char &conn)
   {
     wait(&status);
 
+    //Deallocating memory
+    for( size_t i = 0; i < tokens.size(); i++  )
+      delete tokens[i];
+
+    //Cleaning up vector
     tokens.clear();
 
+    //Checking if the connector was AND
     if(conn == '&')
     {
+      //If the previous cmd failed stop running
       if(status > 0)
         return false;
     }
 
+    //Checking if the connector was OR
     if(conn == '|')
     {
+      //No need to continue running since first cmd was true
       if(status <= 0)
         return false;
     }
   }
 
+  //Continue getting commands
   return true;
 }
 
