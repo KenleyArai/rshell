@@ -21,6 +21,8 @@ const string cmd_delimiter = ";|&#";
 void splice_input(queue<string> &cmds, queue<char> &conns, const string &input);
 bool run_command(string &input, char &conn);
 void tokenize(vector<char*> &comms, string &input);
+void trim_lead_and_trail(string &str);
+
 
 int main()
 {
@@ -30,10 +32,18 @@ int main()
   queue<char> connectors;
   bool running = true;
 
+  char *hostname = new char[20];
+
+  if(gethostname(hostname, 20) == -1)
+  {
+    perror("Error with getting hostname!");
+  }
+
   //Continue prompting
   while(1)
   {
-    cout << "$ ";
+    cout << getlogin() << "@" << hostname << "$ ";
+    
     getline(cin, input);
     splice_input(commands, connectors, input);
 
@@ -45,7 +55,6 @@ int main()
       //Get command from queue
       input = commands.front();
       commands.pop();
-
       //Get connector from queue
       if(!connectors.empty())
       {
@@ -82,24 +91,22 @@ void splice_input(queue<string> &cmds, queue<char> &conns, const string &input)
   string new_cmd;
   string parse = input;
 
-  while(pos != -1)
+  while(pos != -2)
   {
-    pos = parse.find_first_of(cmd_delimiter);
+    pos = parse.find_first_of(cmd_delimiter) - 1;
     new_cmd = parse.substr(0, pos);
-    logic = parse[pos];
+    logic = parse[pos + 1];
 
-    while(new_cmd[0] == ' ')
-      new_cmd = new_cmd.substr(1, new_cmd.length());
-
+    trim_lead_and_trail(new_cmd);
     if(logic == '&' || logic == '|')
     {
       cmds.push(new_cmd);
-      parse.erase(0, pos + 2);
+      parse.erase(0, pos + 3);
     }
     else if(logic == ';')
     {
       cmds.push(new_cmd);
-      parse.erase(0, pos + 1);
+      parse.erase(0, pos + 2);
     }
     else
       cmds.push(new_cmd);
@@ -109,12 +116,11 @@ void splice_input(queue<string> &cmds, queue<char> &conns, const string &input)
 
     conns.push(logic);
   }
-
 }
 
 bool run_command(string &input, char &conn)
 {
-  pid_t pid = fork();
+  int pid = fork();
   vector<char*> tokens;
   int status = 0;
 
@@ -168,13 +174,17 @@ void tokenize(vector<char*> &comms, string &input)
   string convert;
   string tokenizer = input;
   size_t pos = 0;
+ 
+  trim_lead_and_trail(tokenizer);
 
-  while(pos != string::npos)
+  while(pos != string::npos )
   {
     pos = tokenizer.find(' ');
     convert = pos == string::npos ? tokenizer \
                                   : tokenizer.substr(0, pos);
-    convert.erase(std::remove_if(convert.begin(), convert.end(), ::isspace), convert.end());
+
+    trim_lead_and_trail(convert);
+
     if(!convert.empty())
     {
       char *tmp = new char[convert.length() + 1];
@@ -189,4 +199,9 @@ void tokenize(vector<char*> &comms, string &input)
   return;
 }
 
+void trim_lead_and_trail(string &str)
+{
+  str.erase(str.begin(), std::find_if(str.begin(), str.end(), std::bind1st(std::not_equal_to<char>(), ' ')));
+  str.erase(std::find_if(str.rbegin(), str.rend(), std::bind1st(std::not_equal_to<char>(), ' ')).base(), str.end());
+}
 
