@@ -36,3 +36,6 @@ Also there is the ability to add comments to commands by added a `#`.
     
 BUGS
 ----
+
+* There is no direct qoute handling, so it is possible any command that uses qoutes will break.
+* Cannot change directory
