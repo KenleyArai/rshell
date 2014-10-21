@@ -91,22 +91,23 @@ void splice_input(queue<string> &cmds, queue<char> &conns, const string &input)
   string new_cmd;
   string parse = input;
 
-  while(pos != -2)
+  while(pos != -1)
   {
-    pos = parse.find_first_of(cmd_delimiter) - 1;
+    pos = parse.find_first_of(cmd_delimiter);
     new_cmd = parse.substr(0, pos);
-    logic = parse[pos + 1];
+    logic = parse[pos];
 
     trim_lead_and_trail(new_cmd);
+
     if(logic == '&' || logic == '|')
     {
       cmds.push(new_cmd);
-      parse.erase(0, pos + 3);
+      parse.erase(0, pos + 2);
     }
     else if(logic == ';')
     {
       cmds.push(new_cmd);
-      parse.erase(0, pos + 2);
+      parse.erase(0, pos + 1);
     }
     else
       cmds.push(new_cmd);
