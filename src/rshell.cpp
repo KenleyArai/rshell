@@ -101,12 +101,14 @@ void splice_input(queue<string> &cmds, queue<char> &conns, const string &input)
 
     if(logic == '&' || logic == '|')
     {
-      cmds.push(new_cmd);
+      if(parse[pos + 1] == logic)
+        cmds.push(new_cmd);
       parse.erase(0, pos + 2);
     }
     else if(logic == ';')
     {
-      cmds.push(new_cmd);
+      if(parse[pos + 1] == logic)
+        cmds.push(new_cmd);
       parse.erase(0, pos + 1);
     }
     else
