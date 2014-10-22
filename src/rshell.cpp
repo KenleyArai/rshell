@@ -107,8 +107,7 @@ void splice_input(queue<string> &cmds, queue<char> &conns, const string &input)
     }
     else if(logic == ';')
     {
-      if(parse[pos + 1] == logic)
-        cmds.push(new_cmd);
+      cmds.push(new_cmd);
       parse.erase(0, pos + 1);
     }
     else
