@@ -1,0 +1,395 @@
+Script started on Tue 21 Oct 2014 08:53:17 PM PDT
+~
+karai001@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.                               |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m git clone[K[Ke[Kne https://github.com/KenleyArai/rshell
+Cloning into 'rshell'...
+remote: Counting objects: 60, done.[K
+remote: Compressing objects:   2% (1/43)   [Kremote: Compressing objects:   4% (2/43)   [Kremote: Compressing objects:   6% (3/43)   [Kremote: Compressing objects:   9% (4/43)   [Kremote: Compressing objects:  11% (5/43)   [Kremote: Compressing objects:  13% (6/43)   [Kremote: Compressing objects:  16% (7/43)   [Kremote: Compressing objects:  18% (8/43)   [Kremote: Compressing objects:  20% (9/43)   [Kremote: Compressing objects:  23% (10/43)   [Kremote: Compressing objects:  25% (11/43)   [Kremote: Compressing objects:  27% (12/43)   [Kremote: Compressing objects:  30% (13/43)   [Kremote: Compressing objects:  32% (14/43)   [Kremote: Compressing objects:  34% (15/43)   [Kremote: Compressing objects:  37% (16/43)   [Kremote: Compressing objects:  39% (17/43)   [Kremote: Compressing objects:  41% (18/43)   [Kremote: Compressing objects:  44% (19/43)   [Kremote: Compressing objects:  46% (20/43)   [Kremote: Compressing objects:  48% (21/43)   [Kremote: Compressing objects:  51% (22/43)   [Kremote: Compressing objects:  53% (23/43)   [Kremote: Compressing objects:  55% (24/43)   [Kremote: Compressing objects:  58% (25/43)   [Kremote: Compressing objects:  60% (26/43)   [Kremote: Compressing objects:  62% (27/43)   [Kremote: Compressing objects:  65% (28/43)   [Kremote: Compressing objects:  67% (29/43)   [Kremote: Compressing objects:  69% (30/43)   [Kremote: Compressing objects:  72% (31/43)   [Kremote: Compressing objects:  74% (32/43)   [Kremote: Compressing objects:  76% (33/43)   [Kremote: Compressing objects:  79% (34/43)   [Kremote: Compressing objects:  81% (35/43)   [Kremote: Compressing objects:  83% (36/43)   [Kremote: Compressing objects:  86% (37/43)   [Kremote: Compressing objects:  88% (38/43)   [Kremote: Compressing objects:  90% (39/43)   [Kremote: Compressing objects:  93% (40/43)   [Kremote: Compressing objects:  95% (41/43)   [Kremote: Compressing objects:  97% (42/43)   [Kremote: Compressing objects: 100% (43/43)   [Kremote: Compressing objects: 100% (43/43), done.[K
+remote: Total 60 (delta 22), reused 35 (delta 6)[K
+Unpacking objects:   1% (1/60)   Unpacking objects:   3% (2/60)   Unpacking objects:   5% (3/60)   Unpacking objects:   6% (4/60)   Unpacking objects:   8% (5/60)   Unpacking objects:  10% (6/60)   Unpacking objects:  11% (7/60)   Unpacking objects:  13% (8/60)   Unpacking objects:  15% (9/60)   Unpacking objects:  16% (10/60)   Unpacking objects:  18% (11/60)   Unpacking objects:  20% (12/60)   Unpacking objects:  21% (13/60)   Unpacking objects:  23% (14/60)   Unpacking objects:  25% (15/60)   Unpacking objects:  26% (16/60)   Unpacking objects:  28% (17/60)   Unpacking objects:  30% (18/60)   Unpacking objects:  31% (19/60)   Unpacking objects:  33% (20/60)   Unpacking objects:  35% (21/60)   Unpacking objects:  36% (22/60)   Unpacking objects:  38% (23/60)   Unpacking objects:  40% (24/60)   Unpacking objects:  41% (25/60)   Unpacking objects:  43% (26/60)   Unpacking objects:  45% (27/60)   Unpacking objects:  46% (28/60)   Unpacking objects:  48% (29/60)   Unpacking objects:  50% (30/60)   Unpacking objects:  51% (31/60)   Unpacking objects:  53% (32/60)   Unpacking objects:  55% (33/60)   Unpacking objects:  56% (34/60)   Unpacking objects:  58% (35/60)   Unpacking objects:  60% (36/60)   Unpacking objects:  61% (37/60)   Unpacking objects:  63% (38/60)   Unpacking objects:  65% (39/60)   Unpacking objects:  66% (40/60)   Unpacking objects:  68% (41/60)   Unpacking objects:  70% (42/60)   Unpacking objects:  71% (43/60)   Unpacking objects:  73% (44/60)   Unpacking objects:  75% (45/60)   Unpacking objects:  76% (46/60)   Unpacking objects:  78% (47/60)   Unpacking objects:  80% (48/60)   Unpacking objects:  81% (49/60)   Unpacking objects:  83% (50/60)   Unpacking objects:  85% (51/60)   Unpacking objects:  86% (52/60)   Unpacking objects:  88% (53/60)   Unpacking objects:  90% (54/60)   Unpacking objects:  91% (55/60)   Unpacking objects:  93% (56/60)   Unpacking objects:  95% (57/60)   Unpacking objects:  96% (58/60)   Unpacking objects:  98% (59/60)   Unpacking objects: 100% (60/60)   Unpacking objects: 100% (60/60), done.
+Checking connectivity... done
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m git checkout hw0[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kcd rshell/[K
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m ls
+LICENSE  Makefile  README.md  src
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m git [K[K[K[Kgit checkout hw1[K0
+Note: checking out 'hw0'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b new_branch_name
+
+HEAD is now at d8eb16f... Fixed bug introduced from previous patch
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m ((hw0)) [0;36m$[0m git[K[K[Kgit[K[K[Kgi[K[Kmake
+mkdir bin
+g++ -Wall -Werror -ansi -pedantic ./src/rshell.cpp -o ./bin/rshell
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m ((hw0)) [0;36m$[0m bin/rshell 
+karai001@hammer.cs.ucr.edu$ ls # # t  Testing basic ls    command
+bin  LICENSE  Makefile	README.md  src
+karai001@hammer.cs.ucr.edu$ ls ; echo Testl echo       && echo 456789 # Testing chainge  ed commands
+bin  LICENSE  Makefile	README.md  src
+Test
+456789
+karai001@hammer.cs.ucr.edu$ []  -f README.fail ] || echo ""  Testing left bracket and testing OR command so it will run if the first                    l run second o command if the se  i first fails
+Testing left bracket and testing OR command so it will run second command if the first fails
+karai001@hammer.cs.ucr.edu$ []  -f REDA  ADME.md ] || edho   cho ""  Testing that it won't run if the first is TRUE
+karai001@hammer.cs.ucr.edu$ pwd                  ||  &&                                          T echo TEsting      eing     sting man  y many spaces   ;    ;                                                                                              **  && ls
+/home/csmajs/karai001/rshell
+Testing many many spaces
+bin  LICENSE  Makefile	README.md  src
+karai001@hammer.cs.ucr.edu$ echo Testing many many commands **  && ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls
+Testing many many commands
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+karai001@hammer.cs.ucr.edu$ ls&&ls  pwd&&echo "Testing commands close together"
+bin  LICENSE  Makefile	README.md  src
+/home/csmajs/karai001/rshell
+"Testing commands close together"
+karai001@hammer.cs.ucr.edu$ / bin/rshell #Running rshell inside of rshell...
+karai001@hammer.cs.ucr.edu$ exit #Testing         Exiting rshell I entered
+karai001@hammer.cs.ucr.edu$ #Yay!     cat LIS	 SCENSE #Testing outp ut  put
+cat: LISCENSE: No such file or directory
+karai001@hammer.cs.ucr.edu$ cat LICENSE
+Copyright (c) 2014, KenleyArai
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of rshell nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+karai001@hammer.cs.ucr.edu$ echo T "" Qoutes     outes       outes aren;'  't # Really enc forced"
+"Qoutes aren't
+karai001@hammer.cs.ucr.edu$ pwd ||   ;    ; Echo testing hai ving different connc ectors^[[D                                            echo testing having different connectors && pwd
+/home/csmajs/karai001/rshell
+testing having different connectors
+/home/csmajs/karai001/rshell
+karai001@hammer.cs.ucr.edu$ git status #Just testing different commands
+# [31mHEAD detached at [mhw0
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	[31mbin/[m
+nothing added to commit but untracked files present (use "git add" to track)
+karai001@hammer.cs.ucr.edu$ git     ls ||                                                                          echo Testing having many spaces at the beginn ing; echo and at h the end                                                                  
+Testing having many spaces at the begining
+and at the end
+karai001@hammer.cs.ucr.edu$ || Echo      echo testing empty initial command
+testing empty initial command
+karai001@hammer.cs.ucr.edu$ echo    
+karai001@hammer.cs.ucr.edu$ #Testing only having a comment
+karai001@hammer.cs.ucr.edu$ ;;;;;;T  Testing         echo testing muli tiple semi  -colons
+testing multiple semi-colons
+karai001@hammer.cs.ucr.edu$ ;;;;; echo testing multi-semi-colons between commands ;;;;;;;;;; pwd       || ls -a
+testing multi-semi-colons between commands
+/home/csmajs/karai001/rshell
+karai001@hammer.cs.ucr.edu$ echo Testing single AN D  D & echo t hello!
+hello!
+karai001@hammer.cs.ucr.edu$ exit
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m ((hw0)) [0;36m$[0m exit
+exit
+~
+karai001@hammer $ exit
+exit
+
+Script done on Tue 21 Oct 2014 09:12:24 PM PDT
