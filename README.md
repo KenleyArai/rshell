@@ -39,3 +39,12 @@ BUGS
 
 * There is no direct qoute handling, so it is possible any command that uses qoutes will break.
 * Cannot change directory
+* There is no error handling of repeated connectors
+
+###Example
+    &&;;;;;; echo Test
+    Test
+
+LICENSE
+-------
+See [LICENSE](https://github.com/KenleyArai/rshell/blob/master/LICENSE) file for details
