@@ -1,0 +1,395 @@
+Script started on Tue 21 Oct 2014 08:53:17 PM PDT
+~
+karai001@hammer $ cs100
+
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.                               |
+|                                                                             |
+===============================================================================
+
+karai001@cs100:~ $ git clone https://github.com/KenleyArai/rshell
+Cloning into 'rshell'...
+remote: Counting objects: 60, done.
+remote: Compressing objects: 100% (43/43), done.
+remote: Total 60 (delta 22), reused 35 (delta 6)
+Unpacking objects: 100% (60/60), done.
+Checking connectivity... done
+karai001@cs100:~ $ cd rshell
+karai001@cs100:~/rshell (master) $ ls
+LICENSE  Makefile  README.md  src
+karai001@cs100:~/rshell (master) $ git checkout hw0
+Note: checking out 'hw0'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b new_branch_name
+
+HEAD is now at d8eb16f... Fixed bug introduced from previous patch
+karai001@cs100:~/rshell ((hw0)) $ make
+mkdir bin
+g++ -Wall -Werror -ansi -pedantic ./src/rshell.cpp -o ./bin/rshell
+karai001@cs100:~/rshell ((hw0)) $ bin/rshell 
+karai001@hammer.cs.ucr.edu$ ls #Testing basic command
+bin  LICENSE  Makefile	README.md  src
+karai001@hammer.cs.ucr.edu$ ls ; echo Test && echo 456789 # Testing chained commands
+bin  LICENSE  Makefile	README.md  src
+Test
+456789
+karai001@hammer.cs.ucr.edu$ [ -f README.fail ] || echo Testing left bracket and testing OR command so it will run second command if the first fails
+Testing left bracket and testing OR command so it will run second command if the first fails
+karai001@hammer.cs.ucr.edu$ [ -f README.md ] || echo Testing that it won't run if the first is TRUE
+karai001@hammer.cs.ucr.edu$ pwd                  &&                                          echo Testing many many spaces                         && ls     
+/home/csmajs/karai001/rshell
+Testing many many spaces
+bin  LICENSE  Makefile	README.md  src
+karai001@hammer.cs.ucr.edu$ echo Testing many many commands && ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls&& ls
+Testing many many commands
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+bin  LICENSE  Makefile	README.md  src
+karai001@hammer.cs.ucr.edu$ ls&&pwd&&echo "Testing commands close together"
+bin  LICENSE  Makefile	README.md  src
+/home/csmajs/karai001/rshell
+"Testing commands close together"
+karai001@hammer.cs.ucr.edu$ bin/rshell #Running rshell inside of rshell...
+karai001@hammer.cs.ucr.edu$ exit #Exiting rshell I entered
+karai001@hammer.cs.ucr.edu$ cat LISCENSE #Testing output
+cat: LISCENSE: No such file or directory
+karai001@hammer.cs.ucr.edu$ cat LICENSE
+Copyright (c) 2014, KenleyArai
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of rshell nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+karai001@hammer.cs.ucr.edu$ echo "Qoutes aren't # Really enforced"
+"Qoutes aren't
+karai001@hammer.cs.ucr.edu$ pwd ; echo testing having different connectors && pwd
+/home/csmajs/karai001/rshell
+testing having different connectors
+/home/csmajs/karai001/rshell
+karai001@hammer.cs.ucr.edu$ git status #Just testing different commands
+# HEAD detached at hw0
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	bin/
+nothing added to commit but untracked files present (use "git add" to track)
+karai001@hammer.cs.ucr.edu$                                                                    echo Testing having many spaces at the begining; echo and at the end                                                                  
+Testing having many spaces at the begining
+and at the end
+karai001@hammer.cs.ucr.edu$ || echo testing empty initial command
+testing empty initial command
+karai001@hammer.cs.ucr.edu$     
+karai001@hammer.cs.ucr.edu$ #Testing only having a comment
+karai001@hammer.cs.ucr.edu$ ;;;;;; echo testing multiple semi-colons
+testing multiple semi-colons
+karai001@hammer.cs.ucr.edu$ ;;;;; echo testing multi-semi-colons between commands ;;;;;;;;;; pwd       || ls -a
+testing multi-semi-colons between commands
+/home/csmajs/karai001/rshell
+karai001@hammer.cs.ucr.edu$ echo Testing single AND & echo hello!
+hello!
+karai001@hammer.cs.ucr.edu$ exit
+karai001@cs100:~/rshell ((hw0)) $ exit
+exit
+~
+karai001@hammer $ exit
+exit
+
+Script done on Tue 21 Oct 2014 09:12:24 PM PDT
