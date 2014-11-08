@@ -16,194 +16,181 @@
 
 using namespace std;
 
+enum CONNECTOR {NEWLINE, S_COLON, AND, OR};
+
 const string cmd_delimiter = ";|&#";
 
-void splice_input(queue<string> &cmds, queue<char> &conns, const string &input);
-bool run_command(string &input, char &conn);
+struct CmdAndConn
+{
+    string cmd;
+    CONNECTOR conn;
+    CmdAndConn() : cmd("") {}
+    CmdAndConn(string c, CONNECTOR co)
+    {
+        cmd = c;
+        conn = co;
+    }
+};
+
+bool run_command(CmdAndConn &rc);
 void tokenize(vector<char*> &comms, string &input);
 void trim_lead_and_trail(string &str);
-
+void splice_input(queue<CmdAndConn> &commands, const string &input);
 
 int main()
 {
-  string input;
-  char logic;
-  queue<string> commands;
-  queue<char> connectors;
-  bool running = true;
+    string input;
+    CmdAndConn running_command;
+    queue<CmdAndConn> commands;
+    bool running = true;
 
-  char *hostname = new char[20];
+    char *hostname = new char[20];
+    char *username = new char[20];
 
-  if(gethostname(hostname, 20) == -1)
-  {
-    perror("Error with getting hostname!");
-  }
+    username = getlogin();
 
-  //Continue prompting
-  while(1)
-  {
-    cout << getlogin() << "@" << hostname << "$ ";
-    
-    getline(cin, input);
-    splice_input(commands, connectors, input);
+    if(!username)
+        perror("Error getting username!");
 
-    //After getting input from the user begin dequeing 
-    //until the queue of commands is empty or logic
-    //returns to stop running
-    while(!commands.empty() && running)
+    if(gethostname(hostname, 20) == -1)
+        perror("Error with getting hostname!");
+
+    //Continue prompting
+    while(1)
     {
-      //Get command from queue
-      input = commands.front();
-      commands.pop();
-      //Get connector from queue
-      if(!connectors.empty())
-      {
-        logic = connectors.front();
-        connectors.pop();
-      }
+        cout << username << "@" << hostname << "$ ";
+    
+        getline(cin, input);
+        splice_input(commands, input);
 
-      //Check if input is exit
-      //And begin handling command
-      if(input.find("exit") == string::npos)
-        running = run_command(input, logic);
-      else
-        exit(1);
+        //After getting input from the user begin dequeing 
+        //until the queue of commands is empty or logic
+        //returns to stop running
+        while(!commands.empty() && running)
+        {
+            //Get command from queue
+            running_command = commands.front();
+            commands.pop();
+
+            //Check if input is exit
+            //And begin handling command
+            if(input.find("exit") == string::npos)
+                running = run_command(running_command);
+            else
+                exit(1);
       
-      //Clear queues
-      if(!running)
-      {
-        connectors = queue<char>();
-        commands = queue<string>();
-      }
+            //Clear queues
+            if(!running)
+            {
+                commands = queue<CmdAndConn>();
+            }
+        }
+        //Reset running
+        running = true;
     }
-    //Reset running
-    running = true;
-  }
 
-  return 0;
+    return 0;
 }
 
 //Splits the commands and connectors into seperate queues.
-void splice_input(queue<string> &cmds, queue<char> &conns, const string &input)
+void splice_input(queue<CmdAndConn> &cmds, const string &input)
 {
-  int pos = 0;
-  char logic;
-  string new_cmd;
-  string parse = input;
+    size_t pos = 0;
+    string new_cmd;
+    string parse = input;
 
-  while(pos != -1)
-  {
-    pos = parse.find_first_of(cmd_delimiter);
-    new_cmd = parse.substr(0, pos);
-    logic = parse[pos];
-
-    trim_lead_and_trail(new_cmd);
-
-    if(logic == '&' || logic == '|')
+    while(!parse.empty())
     {
-      if(parse[pos + 1] == logic)
-        cmds.push(new_cmd);
-      parse.erase(0, pos + 2);
-    }
-    else if(logic == ';')
-    {
-      cmds.push(new_cmd);
-      parse.erase(0, pos + 1);
-    }
-    else
-      cmds.push(new_cmd);
-    
-    if(logic == '#')
-      return;
+        pos = parse.find_first_of(cmd_delimiter);
 
-    conns.push(logic);
-  }
+        if(parse[pos] == parse[pos + 1])
+        {
+            cmds.push(CmdAndConn(pos == string::npos ? parse : parse.substr(0,pos), \
+                                  parse[pos] == '&' ? AND : OR));
+            parse.erase(0, pos + 2);
+        }
+        else
+        {
+            cmds.push(CmdAndConn(pos == string::npos ? parse : parse.substr(0, pos) , \
+                                 parse[pos] == ';' ? S_COLON : NEWLINE));
+            parse.erase(0, pos == string::npos ? string::npos : pos + 1);
+        }
+    }
 }
 
-bool run_command(string &input, char &conn)
+bool run_command(CmdAndConn &rc)
 {
-  int pid = fork();
-  vector<char*> tokens;
-  int status = 0;
+    int pid = fork();
+    vector<char*> tokens;
+    int status = 0;
 
-  if(pid == -1)
-  {
-    perror("Error with fork()");
-    exit(1);
-  }
-  else if(pid == 0)
-  {
-    tokenize(tokens, input);
-    char **cmds = &tokens[0];
-    execvp(cmds[0], cmds);
-    perror("Execvp failed!");
-    exit(1);
-  }
-  else
-  {
-    wait(&status);
-
-    //Deallocating memory
-    for( size_t i = 0; i < tokens.size(); i++  )
-      delete tokens[i];
-
-    //Cleaning up vector
-    tokens.clear();
-
-    //Checking if the connector was AND
-    if(conn == '&')
+    if(pid == -1)
     {
-      //If the previous cmd failed stop running
-      if(status > 0)
-        return false;
+        perror("Error with fork()");
+        exit(1);
+    }
+    else if(pid == 0)
+    {
+        tokenize(tokens, rc.cmd);
+        execvp(&tokens[0][0], &tokens[0]);
+        perror("Execvp failed!");
+        exit(1);
+    }
+    else
+    {
+        wait(&status);
+
+        //Deallocating memory
+        for( size_t i = 0; i < tokens.size(); i++  )
+            delete [] tokens[i];
+
+        //Cleaning up vector
+        tokens.clear();
+
+        //Checking if the connector was AND
+        if(rc.conn == AND && status > 0)
+            return false;
+
+        //Checking if the connector was OR
+        if(rc.conn == OR && status <= 0)
+            return false;
     }
 
-    //Checking if the connector was OR
-    if(conn == '|')
-    {
-      //No need to continue running since first cmd was true
-      if(status <= 0)
-        return false;
-    }
-  }
-
-  //Continue getting commands
-  return true;
+    //Continue getting commands
+    return true;
 }
 
 void tokenize(vector<char*> &comms, string &input)
 {
-  string convert;
-  string tokenizer = input;
-  size_t pos = 0;
+    string convert;
+    string tokenizer = input;
+    size_t pos = 0;
  
-  trim_lead_and_trail(tokenizer);
+    trim_lead_and_trail(tokenizer);
 
-  while(pos != string::npos )
-  {
-    pos = tokenizer.find(' ');
-    convert = pos == string::npos ? tokenizer \
-                                  : tokenizer.substr(0, pos);
-
-    trim_lead_and_trail(convert);
-
-    if(!convert.empty())
+    while(pos != string::npos )
     {
-      char *tmp = new char[convert.length() + 1];
-      strcpy(tmp, convert.c_str());
-      comms.push_back(tmp);
-      tokenizer.erase(0, pos + 1);
+        pos = tokenizer.find(' ');
+        convert = pos == string::npos ? tokenizer \
+                                      : tokenizer.substr(0, pos);
+
+        trim_lead_and_trail(convert);
+
+        if(!convert.empty())
+        {
+            comms.push_back(strdup(convert.c_str()));
+            tokenizer.erase(0, pos + 1);
+        }
     }
-  }
 
-  comms.push_back(NULL);
+    comms.push_back(NULL);
 
-  return;
+    return;
 }
 
 void trim_lead_and_trail(string &str)
 {
-  str.erase(str.begin(), std::find_if(str.begin(), str.end(), std::bind1st(std::not_equal_to<char>(), ' ')));
-  str.erase(std::find_if(str.rbegin(), str.rend(), std::bind1st(std::not_equal_to<char>(), ' ')).base(), str.end());
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(), std::bind1st(std::not_equal_to<char>(), ' ')));
+    str.erase(std::find_if(str.rbegin(), str.rend(), std::bind1st(std::not_equal_to<char>(), ' ')).base(), str.end());
 }
 
