@@ -37,8 +37,14 @@ void tokenize(vector<char*> &comms, string &input);
 void trim_lead_and_trail(string &str);
 void splice_input(queue<CmdAndConn> &commands, const string &input);
 
-int main()
+int main(int argc, char *argv[])
 {
+    if(argv[1][0] == '-' && argv[1][1] == 'c')
+    {
+        CmdAndConn c(argv[2], NEWLINE);
+        run_command(c);
+        return 0;
+    }
     string input;
     CmdAndConn running_command;
     queue<CmdAndConn> commands;

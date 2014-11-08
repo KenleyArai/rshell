@@ -25,9 +25,13 @@ string cmd_output(string cmd)
 
 int main()
 {
-    string ls = cmd_output("ls -la");
+    string ls = cmd_output("bin/rshell -c 'ls -la'");
 
-    cout << "LS: " << ls << endl;
+    cout << "LS from rshell: " << ls << endl;
+
+    ls = cmd_output("/bin/bash -c 'ls -la'");
+
+    cout << "LS from bash: " << ls << endl;
 
     return 0;
 }
