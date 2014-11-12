@@ -69,6 +69,7 @@ void delete_dot_files(vector<dirent*> &all_di);
 bool compare_words(dirent* lhs,dirent* rhs);
 void sort_dir(vector<dirent*> &all_dir);
 void print_all_info(dirent* dir, string target_dir);
+void print_all_info(const string &dir);
 double get_file_size(const double &file_size);
 vector<dirent*> find_all_dir(const vector<dirent*> &all_dir);
 bool any_dirs(vector<dirent*> &all_dir);
@@ -183,7 +184,9 @@ bool open_dir(const string &d, const FLAGS &flag)
     if(flag & REC)
         cout << dir << '\n';
 
-    if(S_ISREG(info.st_mode))
+    if(S_ISREG(info.st_mode) && flag & ALL_INFO)
+        print_all_info(dir);
+    else if(S_ISREG(info.st_mode))
         cout << left << setw(longest) <<  dir << ' ';
     
     for(vector<dirent*>::iterator it = all_dir.begin(); it != all_dir.end(); ++it)
@@ -292,6 +295,46 @@ void print_all_info(dirent* dir, string target_dir)
     }
     cout << endl;
     delete info;
+}
+
+void print_all_info(const string &dir)
+{
+    struct stat info;
+    if(stat(dir.c_str(), &info) == -1)
+    {
+        perror("Stat");
+        return;
+    }
+
+    cout << right;
+    if(S_ISREG(info.st_mode))
+        cout << '-';
+    else if(S_ISDIR(info.st_mode))
+        cout << 'd';
+    else if(S_ISLNK(info.st_mode))
+        cout << 'l';
+
+    PRINT_ALL_PERM(info.st_mode);
+
+    cout << ' ' << getpwuid(info.st_uid)->pw_name << ' ';
+    cout << getgrgid(info.st_gid)->gr_name << ' ';
+
+    cout << setw(5)<< setprecision(2) << get_file_size((double)info.st_size) << "K ";
+    cout << string(ctime(&info.st_mtime)).substr(0, 16) << ' ';
+   
+    cout << dir << ' ';
+
+    if(S_ISLNK(info.st_mode))
+    {
+        char buff[100];
+        if(readlink(dir.c_str(), buff, info.st_size + 1) != -1)
+            
+            cout << "-> " << buff << ' ';
+        else
+            perror("Error with readlink");
+    }
+    cout << endl;
+
 }
 
 double get_file_size(const double &file_size)
