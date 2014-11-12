@@ -1,0 +1,337 @@
+Script started on Tue 11 Nov 2014 07:08:23 PM PST
+~
+karai001@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.                               |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd rshell/
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m make
+mkdir bin
+g++ -Wall -Werror -ansi -pedantic ./src/rshell.cpp -o ./bin/rshell
+g++ -Wall -Werror -ansi -pedantic ./src/ls.cpp -o ./bin/ls
+g++ -Wall -Werror -ansi -pedantic ./src/cp.cpp -o ./bin/cp
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m bin/s[Kls
+bin       LICENSE   Makefile  README.md src       tests     
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m bin l[K[K/ls -l
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 bin 
+-rw------- karai001 csmajs   1.5K Tue Nov 11 18:26 LICENSE 
+-rw------- karai001 csmajs  0.19K Tue Nov 11 18:27 Makefile 
+-rw------- karai001 csmajs   1.1K Tue Nov 11 18:26 README.md 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 src 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 tests 
+
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m bin/ls -la
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:33 .. 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 bin 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .git 
+-rw------- karai001 csmajs   1.5K Tue Nov 11 18:26 LICENSE 
+-rw------- karai001 csmajs  0.19K Tue Nov 11 18:27 Makefile 
+-rw------- karai001 csmajs   1.1K Tue Nov 11 18:26 README.md 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 src 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 tests 
+
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m bin/ls -laala[C[C[K
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:33 .. 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 bin 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .git 
+-rw------- karai001 csmajs   1.5K Tue Nov 11 18:26 LICENSE 
+-rw------- karai001 csmajs  0.19K Tue Nov 11 18:27 Makefile 
+-rw------- karai001 csmajs   1.1K Tue Nov 11 18:26 README.md 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 src 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 tests 
+
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m bin/ls -al[1PlRl
+./bin/
+-rwx------ karai001 csmajs    37K Tue Nov 11 19:07 cp 
+-rwx------ karai001 csmajs    68K Tue Nov 11 19:07 ls 
+-rwx------ karai001 csmajs    74K Tue Nov 11 19:07 rshell 
+
+
+./src/
+-rw------- karai001 csmajs   5.9K Tue Nov 11 18:37 cp.cpp 
+-rw------- karai001 csmajs   9.6K Tue Nov 11 19:07 ls.cpp 
+-rw------- karai001 csmajs   4.5K Tue Nov 11 18:26 rshell.cpp 
+
+
+./tests/
+-rw------- karai001 csmajs    18K Tue Nov 11 18:26 exec.script 
+-rw------- karai001 csmajs     0K Tue Nov 11 19:07 ls.script 
+
+
+./
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 bin 
+-rw------- karai001 csmajs   1.5K Tue Nov 11 18:26 LICENSE 
+-rw------- karai001 csmajs  0.19K Tue Nov 11 18:27 Makefile 
+-rw------- karai001 csmajs   1.1K Tue Nov 11 18:26 README.md 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 src 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 tests 
+
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m bin/ls -Rla
+./bin/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-rwx------ karai001 csmajs    37K Tue Nov 11 19:07 cp 
+-rwx------ karai001 csmajs    68K Tue Nov 11 19:07 ls 
+-rwx------ karai001 csmajs    74K Tue Nov 11 19:07 rshell 
+
+
+./.git/branches/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+
+
+./.git/hooks/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-rwx------ karai001 csmajs  0.45K Tue Nov 11 18:26 applypatch-msg.sample 
+-rwx------ karai001 csmajs   0.9K Tue Nov 11 18:26 commit-msg.sample 
+-rwx------ karai001 csmajs  0.19K Tue Nov 11 18:26 post-update.sample 
+-rwx------ karai001 csmajs   0.4K Tue Nov 11 18:26 pre-applypatch.sample 
+-rwx------ karai001 csmajs   1.6K Tue Nov 11 18:26 pre-commit.sample 
+-rwx------ karai001 csmajs   1.3K Tue Nov 11 18:26 pre-push.sample 
+-rwx------ karai001 csmajs     5K Tue Nov 11 18:26 pre-rebase.sample 
+-rwx------ karai001 csmajs   1.2K Tue Nov 11 18:26 prepare-commit-msg.sample 
+-rwx------ karai001 csmajs   3.6K Tue Nov 11 18:26 update.sample 
+
+
+./.git/info/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-rw------- karai001 csmajs  0.24K Tue Nov 11 18:26 exclude 
+
+
+./.git/logs/refs/heads/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:27 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 .. 
+-rw------- karai001 csmajs  0.51K Tue Nov 11 19:07 exec 
+-rw------- karai001 csmajs  0.19K Tue Nov 11 18:26 master 
+
+
+./.git/logs/refs/remotes/origin/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 .. 
+-rw------- karai001 csmajs  0.32K Tue Nov 11 19:07 exec 
+-rw------- karai001 csmajs  0.19K Tue Nov 11 18:26 HEAD 
+
+
+./.git/logs/refs/remotes/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 .. 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 origin 
+
+
+./.git/logs/refs/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 .. 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:27 heads 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 remotes 
+
+
+./.git/logs/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-rw------- karai001 csmajs  0.86K Tue Nov 11 19:07 HEAD 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 refs 
+
+
+./.git/objects/10/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-r-------- karai001 csmajs  0.16K Tue Nov 11 19:07 10ebf500d5e3bc29a6bfbc98689488e0c4b6e1 
+
+
+./.git/objects/24/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-r-------- karai001 csmajs  0.11K Tue Nov 11 18:37 1c4de3f2d4414266fdd1de4749d518d745e33b 
+
+
+./.git/objects/31/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-r-------- karai001 csmajs  0.18K Tue Nov 11 19:07 c10f0b019fb1ac175557d06ee5ce2059059557 
+
+
+./.git/objects/51/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-r-------- karai001 csmajs   2.8K Tue Nov 11 19:07 f7bb3346b8e52b050b13db5c44bbe1e43a6ce8 
+
+
+./.git/objects/84/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-r-------- karai001 csmajs   2.6K Tue Nov 11 18:37 e7eee7b739e1071c885f52d10b2f9feb3214cd 
+
+
+./.git/objects/ce/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-r-------- karai001 csmajs   1.8K Tue Nov 11 18:37 7a640e93032cb2723e6e71223da9839efc2092 
+
+
+./.git/objects/d5/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-r-------- karai001 csmajs  0.17K Tue Nov 11 18:37 cbd350e26bb83723c65481566b4652f353a25c 
+
+
+./.git/objects/f6/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-r-------- karai001 csmajs  0.18K Tue Nov 11 18:37 8b04915ccaf02b11ae357a03e25aeb666aa21e 
+
+
+./.git/objects/f9/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-r-------- karai001 csmajs  0.11K Tue Nov 11 19:07 a431f7f069b43143c41ec55cd41a991ed79c2f 
+
+
+./.git/objects/info/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+
+
+./.git/objects/pack/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-r-------- karai001 csmajs     4K Tue Nov 11 18:26 pack-bdc677afecf5d5466edfcac621cba0cc3f219c8d.idx 
+-r-------- karai001 csmajs    23K Tue Nov 11 18:26 pack-bdc677afecf5d5466edfcac621cba0cc3f219c8d.pack 
+
+
+./.git/objects/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 10 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 24 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 31 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 51 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 84 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 ce 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 d5 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:37 f6 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 f9 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 info 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 pack 
+
+
+./.git/refs/heads/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 .. 
+-rw------- karai001 csmajs 0.041K Tue Nov 11 19:07 exec 
+-rw------- karai001 csmajs 0.041K Tue Nov 11 18:26 master 
+
+
+./.git/refs/remotes/origin/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 .. 
+-rw------- karai001 csmajs 0.041K Tue Nov 11 19:07 exec 
+-rw------- karai001 csmajs 0.032K Tue Nov 11 18:26 HEAD 
+
+
+./.git/refs/remotes/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 .. 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 origin 
+
+
+./.git/refs/tags/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 .. 
+
+
+./.git/refs/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 heads 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 remotes 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 tags 
+
+
+./.git/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 branches 
+-rw------- karai001 csmajs  0.32K Tue Nov 11 18:27 config 
+-rw------- karai001 csmajs 0.073K Tue Nov 11 18:26 description 
+-rw------- karai001 csmajs  0.32K Tue Nov 11 19:07 FETCH_HEAD 
+-rw------- karai001 csmajs 0.021K Tue Nov 11 18:27 HEAD 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 hooks 
+-rw------- karai001 csmajs  0.57K Tue Nov 11 19:07 index 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 info 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 logs 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 objects 
+-rw------- karai001 csmajs 0.041K Tue Nov 11 19:07 ORIG_HEAD 
+-rw------- karai001 csmajs   0.3K Tue Nov 11 18:26 packed-refs 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:26 refs 
+
+
+./src/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-rw------- karai001 csmajs   5.9K Tue Nov 11 18:37 cp.cpp 
+-rw------- karai001 csmajs   9.6K Tue Nov 11 19:07 ls.cpp 
+-rw------- karai001 csmajs   4.5K Tue Nov 11 18:26 rshell.cpp 
+
+
+./tests/
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-rw------- karai001 csmajs    18K Tue Nov 11 18:26 exec.script 
+-rw------- karai001 csmajs     0K Tue Nov 11 19:07 ls.script 
+-rw------- karai001 csmajs   4.5K Tue Nov 11 19:06 .nfs000000000091240c0000000f 
+
+
+./
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 18:33 .. 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 bin 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .git 
+-rw------- karai001 csmajs   1.5K Tue Nov 11 18:26 LICENSE 
+-rw------- karai001 csmajs  0.19K Tue Nov 11 18:27 Makefile 
+-rw------- karai001 csmajs   1.1K Tue Nov 11 18:26 README.md 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 src 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 tests 
+
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m bin/ls -Rla[K[Ksr[K[K src/[K
+src/
+cp.cpp     ls.cpp     rshell.cpp 
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m bin/ls -R src[Kc[C[1P srca src[C[C[C[C -l
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 . 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 .. 
+-rw------- karai001 csmajs   5.9K Tue Nov 11 18:37 cp.cpp 
+-rw------- karai001 csmajs   9.6K Tue Nov 11 19:07 ls.cpp 
+-rw------- karai001 csmajs   4.5K Tue Nov 11 18:26 rshell.cpp 
+
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m bin/ls -l Makefile 
+-rw------- karai001 csmajs  0.19K Tue Nov 11 18:27 Makefile 
+
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m chmod +[Ku+x Makefile 
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m chmod u+x Makefile bin/ls -l[C[C[C[C[C[C[C[C[C[C
+-rwx------ karai001 csmajs  0.19K Tue Nov 11 18:27 Makefile 
+
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m ln -s Makefile Makefile [KLink
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m bin/ls
+bin          LICENSE      Makefile     MakefileLink README.md    src          tests        
+[s%%%%%%%%%%[u[0;32mkarai001[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m bin/ls -l
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 bin 
+-rw------- karai001 csmajs   1.5K Tue Nov 11 18:26 LICENSE 
+-rwx------ karai001 csmajs  0.19K Tue Nov 11 18:27 Makefile 
+lrwx------ karai001 csmajs  0.19K Tue Nov 11 18:27 MakefileLink -> Makefile 
+-rw------- karai001 csmajs   1.1K Tue Nov 11 18:26 README.md 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 src 
+drwx------ karai001 csmajs   4.1K Tue Nov 11 19:07 tests 
+
+exit
+~
+karai001@hammer $ exit
+exit
+
+Script done on Tue 11 Nov 2014 07:10:29 PM PST
