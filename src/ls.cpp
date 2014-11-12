@@ -283,7 +283,7 @@ void print_all_info(dirent* dir, string target_dir)
 
     if(dir->d_type == DT_LNK)
     {
-        char buff[info->st_size];
+        char buff[100];
         if(readlink(full_path.c_str(), buff, info->st_size + 1) != -1)
             cout << "-> " << buff << ' ';
         else
