@@ -62,14 +62,14 @@ vector<string> get_all_reg(const string &file)
     vector<string> ret_vec;
     DIR *dir;
     struct dirent *dp;
-    dir = opendir(file.c_str());
+    if(!(dir = opendir(file.c_str())))
+            perror("opendir");
     
     if(dir)
         while((dp = readdir(dir)))
             if(is_a_reg(file + dp->d_name))
                 ret_vec.push_back(dp->d_name);
     (void) closedir (dir);
-
     return ret_vec;
 }
 
@@ -79,7 +79,8 @@ vector<string> get_all_dir(const string &d)
 
     DIR *dir;
     struct dirent *dp;
-    dir = opendir(d.c_str());
+    if(!(dir = opendir(d.c_str())))
+        perror("opendir");
 
     if(dir)
         while((dp = readdir(dir)))
@@ -92,13 +93,9 @@ vector<string> get_all_dir(const string &d)
 
 void copy_files(const string &s, const string &d, const FLAG &f)
 {
-    cout << "s: " << s << endl;
-    cout << "d: " << d << endl;
     string src = check_end_slash(s);
     string dst = check_end_slash(d);
  
-    cout << "src: " << src << endl;
-    cout << "dst: " << dst << endl;
    if(is_a_reg(src) && is_a_reg(dst))
         optimal_cp(src.c_str(), dst.c_str());
     else if(is_a_dir(src) && !file_exists(dst))

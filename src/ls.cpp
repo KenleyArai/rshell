@@ -210,7 +210,8 @@ bool open_dir(const string &d, const FLAGS &flag)
 int get_screen_width()
 {
     struct winsize w;
-    ioctl(0, TIOCGWINSZ, &w);
+    if(ioctl(0, TIOCGWINSZ, &w) == -1)
+        perror("Error getting windowsize");
     return (int)w.ws_col;
 }
 
