@@ -21,6 +21,9 @@ using namespace std;
 
 enum CONNECTOR {NEWLINE, COMMENT, S_COLON, AND, OR, PIPE, REDIRECT_INPUT, REDIRECT_OUT, REDIRECT_OUT_APPEND};
 
+#define STDIN 0
+#define STDOUT 1
+
 #define IS_DOUBLE_CHAR(X) X == AND || X == PIPE || X == OR || X == REDIRECT_OUT_APPEND
 #define IS_R_I(X) X == REDIRECT_INPUT
 #define IS_R_O(X) X == REDIRECT_OUT
@@ -30,6 +33,7 @@ enum CONNECTOR {NEWLINE, COMMENT, S_COLON, AND, OR, PIPE, REDIRECT_INPUT, REDIRE
 #define OUTPUT_APND (O_CREAT | O_WRONLY | O_APPEND)
 #define OPEN_MODE(X) IS_R_O(X) ? OUTPUT_ONLY : IS_R_OA(X) ? OUTPUT_APND : O_RDONLY 
 #define STDIN_OR_STDOUT(X) IS_R_I(X) ? 0 : 1
+#define IS_PIPE(X) X == PIPE
 
 struct CmdAndConn
 {
@@ -52,9 +56,11 @@ queue<vector<string>> get_all_cmds(const string &input, const map<int, CONNECTOR
 vector<int> get_all_conns_pos(const string &input);
 vector<int> find_conn_pairs(const vector<int> &all_conns);
 void delete_conn_pairs(vector<int> &all_conns);
-void redirect_with_fd(const CONNECTOR &conn, const string &file, const int &replace_fd);
-bool run_redirection(const CmdAndConn &cmd, const CmdAndConn &file);
-   
+bool run_chained(queue<CmdAndConn> &chained);
+void set_io(vector<int> &cur_io, vector<vector<int>> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd);
+void set_input(vector<int> &cur_io, vector<int> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd);
+void set_output(vector<int> &cur_io, vector<int> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd);
+
 int main()
 {
     string input;
@@ -92,11 +98,22 @@ int main()
             //And begin handling command
             if(input.find("exit") != string::npos)
                 exit(1);
-            if(IS_REDIRECTION(running_command.conn))
-            {
-                running = run_redirection(running_command, commands.front());
+            if(IS_PIPE(running_command.conn) || IS_REDIRECTION(running_command.conn))
+            {   
+                queue<CmdAndConn> chained_piped_commands;
+                chained_piped_commands.push(running_command);
+
+                while(IS_PIPE(commands.front().conn) || IS_REDIRECTION(commands.front().conn))
+                {
+                    chained_piped_commands.push(commands.front());
+                    commands.pop();
+                }
+                
+                chained_piped_commands.push(commands.front());
                 commands.pop();
-            } 
+
+                running = run_chained(chained_piped_commands);
+            }
             else
                 running = run_command(running_command);
       
@@ -306,28 +323,208 @@ void delete_conn_pairs(vector<int> &all_conns)
 
 }
 
-void redirect(const CONNECTOR &conn, const string &file, const int &replace_fd)
+bool run_chained(queue <CmdAndConn> &chained)
 {
-    int fd;
-    if(-1 == (fd = open(file.c_str(), OPEN_MODE(conn), 0666)))
-        perror("Error with open");
-    if(-1 == dup2(fd, replace_fd))
-        perror("Error with dup2");
-}
+    vector<int> saved_io{0,0};
+    vector<int> current_io{0,0};
+    vector<int> tmp{-1,-1};
+    vector<vector<int>> piped_io;
+    bool ret = true;
+    
+    piped_io.push_back(tmp);
+    piped_io.push_back(tmp);
 
-bool run_redirection(const CmdAndConn &cmd, const CmdAndConn &file)
-{
-    int savestdin;
-    int stdin_or_stdout = STDIN_OR_STDOUT(cmd.conn);
-    if(-1 == (savestdin = dup(stdin_or_stdout)))
-        perror("Error with dup");
+    if((saved_io.front() = dup(0)) == -1)
+        perror("Error saving stdin");
+    if((saved_io.back() = dup(1)) == -1)
+        perror("Error saving stdout");
+    
+    current_io.front() = saved_io.front();
+    current_io.back() = saved_io.back();
+    CmdAndConn file;
+    file.conn = NEWLINE;
+    CmdAndConn curr_cmd = chained.front();
+    chained.pop();
 
-    redirect(cmd.conn, file.cmd.front(), STDIN_OR_STDOUT(cmd.conn));
+    while(!chained.empty() || curr_cmd.conn == NEWLINE)
+    {
 
-    bool ret = run_command(cmd);
+        cerr << "saved front\t= " << saved_io.front() << endl \
+             << "saved back\t= " << saved_io.back() << endl;
+        cerr << "piped 0 front\t= " << piped_io[0].front() << endl \
+             << "piped 0 back\t= " << piped_io[0].back() << endl;
+        cerr << "piped 1 front\t= " << piped_io[1].front() << endl \
+             << "piped 1 back\t= " << piped_io[1].back() << endl;
+        cerr << "curr front\t= " << current_io.front() << endl \
+             << "curr back\t= " << current_io.back() << endl<< endl;
+        cerr << curr_cmd.cmd.front() << endl << endl;
 
-    if(-1 == dup2(savestdin,stdin_or_stdout))
-        perror("Error with dup2");
+        set_io(current_io, piped_io, saved_io, curr_cmd, chained.front());
+        
+        cerr << "saved front\t= " << saved_io.front() << endl \
+             << "saved back\t= " << saved_io.back() << endl;
+        cerr << "piped 0 front\t= " << piped_io[0].front() << endl \
+             << "piped 0 back\t= " << piped_io[0].back() << endl;
+        cerr << "piped 1 front\t= " << piped_io[1].front() << endl \
+             << "piped 1 back\t= " << piped_io[1].back() << endl;
+        cerr << "curr front\t= " << current_io.front() << endl \
+             << "curr back\t= " << current_io.back() << endl<< endl;
+        cerr << curr_cmd.cmd.front() << endl << endl;
+        ret = run_command(curr_cmd);
+        
+        if(piped_io[0].back() != -1 && piped_io[0].front() != -1)
+        {
+            if(close(piped_io[0].front()) == -1)
+                perror("error closing back pipe");
+            piped_io.front().front() = -1;
+        }
+        else if(piped_io[1].back() != -1 && piped_io[1].front() != -1)
+        {
+            if(close(piped_io[1].front()) == -1)
+                perror("error closing back pipe");
+            piped_io.front().front() = -1;
+        }
+        if(curr_cmd.conn == NEWLINE)
+            break;
+        if(IS_REDIRECTION(curr_cmd.conn) && !chained.empty())
+            chained.pop();
+        if(!chained.empty())
+        {
+            curr_cmd = chained.front();
+            chained.pop();
+        }
+    }
+
+    current_io.front() = saved_io.front();
+    if(dup2(saved_io.front(), STDIN) == -1)
+        perror("error restoring stdin");
+    current_io.back() = saved_io.back();
+    if(dup2(current_io.back(), STDOUT) == -1)
+        perror("error restoring stdout");
+    cerr << "saved front\t= " << saved_io.front() << endl \
+         << "saved back\t= " << saved_io.back() << endl;
+    cerr << "piped 0 front\t= " << piped_io[0].front() << endl \
+         << "piped 0 back\t= " << piped_io[0].back() << endl;
+    cerr << "piped 1 front\t= " << piped_io[1].front() << endl \
+         << "piped 1 back\t= " << piped_io[1].back() << endl;
+    cerr << "curr front\t= " << current_io.front() << endl \
+         << "curr back\t= " << current_io.back() << endl<< endl;
+
     return ret;
 }
+
+void set_io(vector<int> &cur_io, vector<vector<int>> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd)
+{
+    if(IS_PIPE(cur_cmd.conn) && !(IS_PIPE(next_cmd.conn)))
+    {
+        if(piped_io[0].front() == -1 && piped_io[0].back() == -1)
+        {
+            if(pipe(&piped_io[0][0]) == -1)
+                perror("Error piping");
+        }
+        else if(piped_io[1].front() == -1 && piped_io[1].back() == -1)
+        {
+            if(pipe(&piped_io[1][0]) == -1)
+                perror("Error piping");
+        }
+    }
+    else if(IS_PIPE(cur_cmd.conn) && IS_PIPE(next_cmd.conn))
+    {
+        if(piped_io[0].front() == -1 && piped_io[0].back() == -1)
+        {
+            if(pipe(&piped_io[0][0]) == -1)
+                perror("Error piping");
+        }
+        else if(piped_io[1].front() == -1 && piped_io[1].back() == -1)
+        {
+            if(pipe(&piped_io[1][0]) == -1)
+                perror("Error piping");
+        }
+    }
+
+    if(piped_io[0].back() != -1 && piped_io[0].front() == -1)
+    {
+        set_input(cur_io, piped_io[0], saved_io, cur_cmd, next_cmd);
+        set_output(cur_io, piped_io[1], saved_io, cur_cmd, next_cmd);
+    }
+    else if(piped_io[1].back() != -1 && piped_io[1].front() != -1)
+    {
+        set_input(cur_io, piped_io[1], saved_io, cur_cmd, next_cmd);
+        set_output(cur_io, piped_io[0], saved_io, cur_cmd, next_cmd);
+    } 
+    else if(piped_io[0].front() != -1 && piped_io[0].back() != -1)
+    {
+        set_input(cur_io, piped_io[0], saved_io, cur_cmd, next_cmd);
+        set_output(cur_io, piped_io[0], saved_io, cur_cmd, next_cmd);
+    }
+    else if(piped_io[1].front() != -1 && piped_io[1].back() != -1)
+    {
+        set_input(cur_io, piped_io[1], saved_io, cur_cmd, next_cmd);
+        set_output(cur_io, piped_io[1], saved_io, cur_cmd, next_cmd);
+    }
+}
+
+void set_input(vector<int> &cur_io, vector<int> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd)
+{
+    if(IS_R_I(cur_cmd.conn))
+    {
+        if((cur_io.front() = open(next_cmd.cmd.front().c_str(), O_RDONLY)) == -1)
+            perror("Error opening while setting input");
+        if(dup2(cur_io.front(), STDIN) == -1)
+            perror("Error dup2 while setting input");
+    }
+    else if(cur_io.back() == piped_io.back())
+    {
+        if(close(piped_io.back()) == -1)
+            perror("error closing pipe");
+        piped_io.back() = -1;
+
+        cur_io.front() = piped_io.front();
+        if(dup2(cur_io.front(), STDIN) == -1)
+            perror("Error using dup2 with pipe on STDIN");
+    }
+    else
+    {
+        cur_io.front() = saved_io.front();
+        if(dup2(cur_io.front(), STDIN) == -1)
+                perror("Error using dup2");
+    }
+}
+
+void set_output(vector<int> &cur_io, vector<int> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd)
+{
+    if(IS_R_O(cur_cmd.conn))
+    {
+        if(( cur_io.back() = open(next_cmd.cmd.front().c_str(),O_CREAT | O_WRONLY | O_TRUNC, 0666) ) == -1)
+            perror("Error using open to write to file");
+        if(dup2(cur_io.back(), STDOUT) == -1)
+            perror("Error using dup2 to write to file");
+    }
+    else if(IS_R_OA(cur_cmd.conn))
+    {
+        if(( cur_io.back() = open(next_cmd.cmd.front().c_str(),O_CREAT | O_WRONLY | O_APPEND, 0666) ) == -1)
+            perror("Error using open to append to file");
+        if(dup2(cur_io.back(), STDOUT) == -1)
+            perror("Error using dup2 to append to file");
+    }
+    else if(IS_PIPE(cur_cmd.conn) || IS_PIPE(next_cmd.conn))
+    {
+        
+        cur_io.back() = piped_io.back();
+        if(dup2(cur_io.back(), STDOUT) == -1)
+            perror("Error using pipe to STDOUT");
+    }
+    else
+    {
+        cur_io.back() = saved_io.back();
+        if(dup2(cur_io.back(), STDOUT) == -1)
+            perror("error dup2");
+    }
+}
+
+
+
+
+
+
 
