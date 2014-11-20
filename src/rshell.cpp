@@ -403,7 +403,7 @@ bool run_chained(vector <CmdAndConn> &chained)
                 chained.erase(chained.begin() + 1);
                 ret = run_piped(chained);
             }
-            else if(chained.size() >= 2 && IS_REDIRECTION(chained.at(1).conn))
+            else if(( chained.size() >= 2 ) && (IS_REDIRECTION(chained.at(1).conn) ))
             {
                 chained.erase(chained.begin() + 1);
                 set_io(saved_io, chained);
@@ -412,7 +412,7 @@ bool run_chained(vector <CmdAndConn> &chained)
                 chained.erase(chained.begin() + 1);
 
             }
-            else if(chained.size() > 1 && IS_REDIRECTION(chained.at(0).conn))
+            else if(( chained.size() > 1  ) && ( IS_REDIRECTION(chained.at(0).conn) ))
             {
                 chained.erase(chained.begin() + 1);
                 ret = run_command(chained.front());
