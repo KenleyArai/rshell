@@ -1,7 +1,7 @@
 //C++ libs
 #include <iostream>
 #include <string>
-#include <queue>
+#include <vector>
 #include <vector>
 #include <algorithm>
 #include <regex>
@@ -50,22 +50,22 @@ struct CmdAndConn
 bool run_command(const CmdAndConn &rc);
 void tokenize(vector<char*> &comms, const vector<string> &input);
 void trim_lead_and_trail(string &str);
-void splice_input(queue<CmdAndConn> &commands, const string &input);
+void splice_input(vector<CmdAndConn> &commands, const string &input);
 map<int, CONNECTOR> get_all_conns(const string &input);
-queue<vector<string>> get_all_cmds(const string &input, const map<int, CONNECTOR> &all_conns);
+vector< vector<string> > get_all_cmds(const string &input, const map<int, CONNECTOR> &all_conns);
 vector<int> get_all_conns_pos(const string &input);
 vector<int> find_conn_pairs(const vector<int> &all_conns);
 void delete_conn_pairs(vector<int> &all_conns);
-bool run_chained(queue<CmdAndConn> &chained);
-void set_io(vector<int> &cur_io, vector<vector<int>> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd);
-void set_input(vector<int> &cur_io, vector<int> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd);
-void set_output(vector<int> &cur_io, vector<int> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd);
+bool run_piped(vector <CmdAndConn> &cmds);
+bool run_chained(vector<CmdAndConn> &chained);
+void set_io(const vector<int> &saved_io, vector<CmdAndConn> &chained);
+void set_input(const vector<int> &saved_io, vector<CmdAndConn> &chained);
+void set_output(const vector<int> &saved_io, vector<CmdAndConn> &chained);
 
 int main()
 {
     string input;
-    CmdAndConn running_command;
-    queue<CmdAndConn> commands;
+    vector<CmdAndConn> commands;
     bool running = true;
 
     char *hostname = new char[20];
@@ -80,46 +80,44 @@ int main()
     //Continue prompting
     while(1)
     {
-        cout << username << "@" << hostname << "$ ";
+        cout << "$ ";
+        //cout << username << "@" << hostname << "$ ";
     
         getline(cin, input);
         splice_input(commands, input);
 
-/*        After getting input from the user begin dequeing */
-        //until the queue of commands is empty or logic
-        /*returns to stop running*/
+        //After getting input from the user begin dequeing
+        //until the vector of commands is empty or logic
+        //returns to stop running
+        
         while(!commands.empty() && running)
         {
-            //Get command from queue
-            running_command = commands.front();
-            commands.pop();
-
             //Check if input is exit
             //And begin handling command
             if(input.find("exit") != string::npos)
                 exit(1);
-            if(IS_PIPE(running_command.conn) || IS_REDIRECTION(running_command.conn))
-            {   
-                queue<CmdAndConn> chained_piped_commands;
-                chained_piped_commands.push(running_command);
-
+            if(IS_PIPE(commands.front().conn) || IS_REDIRECTION(commands.front().conn))
+            {
+                vector<CmdAndConn> chained_cmds;
                 while(IS_PIPE(commands.front().conn) || IS_REDIRECTION(commands.front().conn))
                 {
-                    chained_piped_commands.push(commands.front());
-                    commands.pop();
+                    chained_cmds.push_back(commands.front());
+                    commands.erase(commands.begin());
                 }
-                
-                chained_piped_commands.push(commands.front());
-                commands.pop();
 
-                running = run_chained(chained_piped_commands);
+                chained_cmds.push_back(commands.front());
+                commands.erase(commands.begin());
+
+                running = run_chained(chained_cmds);
             }
             else
-                running = run_command(running_command);
-      
-            //Clear queues
+            {
+                running = run_command(commands.back());
+                commands.pop_back();
+            }
+            //Clear vectors
             if(!running)
-                commands = queue<CmdAndConn>();
+                commands.clear();
         }
         //Reset running
         running = true;
@@ -128,25 +126,26 @@ int main()
     return 0;
 }
 
-//Splits the commands and connectors into seperate queues.
-void splice_input(queue<CmdAndConn> &cmds, const string &input)
+//Splits the commands and connectors into seperate vectors.
+void splice_input(vector<CmdAndConn> &cmds, const string &input)
 {
     map<int, CONNECTOR> all_conns = get_all_conns(input);
-    queue<vector<string>> all_cmds = get_all_cmds(input, all_conns);
+    vector<vector<string>> all_cmds = get_all_cmds(input, all_conns);
 
-    for(auto it : all_conns)
+    for(const auto &it : all_conns)
     {
         vector<string> tmp = all_cmds.front();
-        
-        all_cmds.pop();
-        cmds.push(CmdAndConn(tmp, it.second));
+        all_cmds.erase(all_cmds.begin());
+        cmds.push_back(CmdAndConn(tmp, it.second));
     }
 }
 
 bool run_command(const CmdAndConn &rc)
 {
+
     int pid = fork();
     vector<char*> tokens;
+    tokenize(tokens, rc.cmd);
     int status = 0;
 
     if(pid == -1)
@@ -156,9 +155,9 @@ bool run_command(const CmdAndConn &rc)
     }
     else if(pid == 0)
     {
-        tokenize(tokens, rc.cmd);
         execvp(&tokens[0][0], &tokens[0]);
         perror("Execvp failed!");
+        cerr<< tokens[0] << endl;
         exit(1);
     }
     else
@@ -239,9 +238,9 @@ map<int, CONNECTOR> get_all_conns(const string &input)
     return conns_with_pos;
 }
 
-queue< vector<string> > get_all_cmds(const string &input, const map<int, CONNECTOR> &all_conns)
+vector< vector<string> > get_all_cmds(const string &input, const map<int, CONNECTOR> &all_conns)
 {
-    queue<vector<string>> ret;
+    vector<vector<string>> ret;
     int prev = 0;
     string str;
 
@@ -257,7 +256,7 @@ queue< vector<string> > get_all_cmds(const string &input, const map<int, CONNECT
         for(stringstream s(str); s >> tmp; )
             v_str.push_back(tmp);
         
-        ret.push(v_str);
+        ret.push_back(v_str);
 
         if(IS_DOUBLE_CHAR(it.second))
             prev = it.first + 2;
@@ -323,203 +322,173 @@ void delete_conn_pairs(vector<int> &all_conns)
 
 }
 
-bool run_chained(queue <CmdAndConn> &chained)
+bool run_piped(vector <CmdAndConn> &cmds)
+{
+    int pipes[2];
+    if(pipe(pipes) == -1)
+        perror("Error creating pipes");
+
+    bool ret;
+    vector<char*> tokens;
+
+    tokenize(tokens, cmds.front().cmd);
+    cmds.erase(cmds.begin());
+
+    int pid = fork();
+    int status = 0;
+    
+    if(pid == -1)
+    {
+        perror("Error with fork()");
+        exit(1);
+    }
+    else if(pid == 0)
+    {
+        if(dup2(pipes[1], 1) == -1)
+            perror("Error writing to pipe");
+        if(close(pipes[0]) == -1)
+            perror("Error closing read end of pipe");
+        execvp(&tokens[0][0], &tokens[0]);
+        perror("Execvp failed!!");
+        exit(1);
+    }
+    else
+    {
+        if(wait(&status) == -1)
+            perror("Error wait");
+
+        if(-1 == dup2(pipes[0], 0))
+            perror("Error dup2");
+        if(close(pipes[1]))
+            perror("Error dup2");
+       
+        if(IS_PIPE(cmds.front().conn))
+            ret = run_piped(cmds);
+
+        //Deallocating memory
+        for( size_t i = 0; i < tokens.size(); i++  )
+            delete [] tokens[i];
+        //Cleaning up vector
+        tokens.clear();
+
+    }
+
+    //Continue getting commands
+    return ret;
+}
+
+bool run_chained(vector <CmdAndConn> &chained)
 {
     vector<int> saved_io{0,0};
-    vector<int> current_io{0,0};
-    vector<int> tmp{-1,-1};
-    vector<vector<int>> piped_io;
     bool ret = true;
-    
-    piped_io.push_back(tmp);
-    piped_io.push_back(tmp);
 
-    if((saved_io.front() = dup(0)) == -1)
+    if((saved_io.front() = dup(STDIN)) == -1)
         perror("Error saving stdin");
-    if((saved_io.back() = dup(1)) == -1)
+    if((saved_io.back() = dup(STDOUT)) == -1)
         perror("Error saving stdout");
     
-    current_io.front() = saved_io.front();
-    current_io.back() = saved_io.back();
     CmdAndConn file;
     file.conn = NEWLINE;
-    CmdAndConn curr_cmd = chained.front();
-    chained.pop();
 
-    while(!chained.empty() || curr_cmd.conn == NEWLINE)
+    while(!chained.empty())
     {
+        set_io(saved_io, chained);
+      
+        if(IS_PIPE(chained.front().conn))
+            ret = run_piped(chained);
+        else if(IS_REDIRECTION(chained.front().conn))
+        {
+            if(chained.size() > 2 && IS_PIPE(chained.at(1).conn))
+            {
+                chained.erase(chained.begin() + 1);
+                ret = run_piped(chained);
+            }
+            else if(chained.size() >= 2 && IS_REDIRECTION(chained.at(1).conn))
+            {
+                chained.erase(chained.begin() + 1);
+                set_io(saved_io, chained);
+                chained.erase(chained.begin() + 1);
+                ret = run_command(chained.front());
+                chained.erase(chained.begin() + 1);
 
-        cerr << "saved front\t= " << saved_io.front() << endl \
-             << "saved back\t= " << saved_io.back() << endl;
-        cerr << "piped 0 front\t= " << piped_io[0].front() << endl \
-             << "piped 0 back\t= " << piped_io[0].back() << endl;
-        cerr << "piped 1 front\t= " << piped_io[1].front() << endl \
-             << "piped 1 back\t= " << piped_io[1].back() << endl;
-        cerr << "curr front\t= " << current_io.front() << endl \
-             << "curr back\t= " << current_io.back() << endl<< endl;
-        cerr << curr_cmd.cmd.front() << endl << endl;
-
-        set_io(current_io, piped_io, saved_io, curr_cmd, chained.front());
-        
-        cerr << "saved front\t= " << saved_io.front() << endl \
-             << "saved back\t= " << saved_io.back() << endl;
-        cerr << "piped 0 front\t= " << piped_io[0].front() << endl \
-             << "piped 0 back\t= " << piped_io[0].back() << endl;
-        cerr << "piped 1 front\t= " << piped_io[1].front() << endl \
-             << "piped 1 back\t= " << piped_io[1].back() << endl;
-        cerr << "curr front\t= " << current_io.front() << endl \
-             << "curr back\t= " << current_io.back() << endl<< endl;
-        cerr << curr_cmd.cmd.front() << endl << endl;
-        ret = run_command(curr_cmd);
-        
-        if(piped_io[0].back() != -1 && piped_io[0].front() != -1)
-        {
-            if(close(piped_io[0].front()) == -1)
-                perror("error closing back pipe");
-            piped_io.front().front() = -1;
+            }
+            else if(chained.size() > 1 && IS_REDIRECTION(chained.at(0).conn))
+            {
+                chained.erase(chained.begin() + 1);
+                ret = run_command(chained.front());
+                chained.erase(chained.begin() + 1);
+            }
         }
-        else if(piped_io[1].back() != -1 && piped_io[1].front() != -1)
+        else
         {
-            if(close(piped_io[1].front()) == -1)
-                perror("error closing back pipe");
-            piped_io.front().front() = -1;
-        }
-        if(curr_cmd.conn == NEWLINE)
-            break;
-        if(IS_REDIRECTION(curr_cmd.conn) && !chained.empty())
-            chained.pop();
-        if(!chained.empty())
-        {
-            curr_cmd = chained.front();
-            chained.pop();
+            ret = run_command(chained.front());
+            chained.erase(chained.begin());
         }
     }
 
-    current_io.front() = saved_io.front();
     if(dup2(saved_io.front(), STDIN) == -1)
         perror("error restoring stdin");
-    current_io.back() = saved_io.back();
-    if(dup2(current_io.back(), STDOUT) == -1)
+    if(dup2(saved_io.back(), STDOUT) == -1)
         perror("error restoring stdout");
-    cerr << "saved front\t= " << saved_io.front() << endl \
-         << "saved back\t= " << saved_io.back() << endl;
-    cerr << "piped 0 front\t= " << piped_io[0].front() << endl \
-         << "piped 0 back\t= " << piped_io[0].back() << endl;
-    cerr << "piped 1 front\t= " << piped_io[1].front() << endl \
-         << "piped 1 back\t= " << piped_io[1].back() << endl;
-    cerr << "curr front\t= " << current_io.front() << endl \
-         << "curr back\t= " << current_io.back() << endl<< endl;
 
     return ret;
 }
 
-void set_io(vector<int> &cur_io, vector<vector<int>> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd)
+void set_io(const vector<int> &saved_io, vector<CmdAndConn> &chained) 
 {
-    if(IS_PIPE(cur_cmd.conn) && !(IS_PIPE(next_cmd.conn)))
-    {
-        if(piped_io[0].front() == -1 && piped_io[0].back() == -1)
-        {
-            if(pipe(&piped_io[0][0]) == -1)
-                perror("Error piping");
-        }
-        else if(piped_io[1].front() == -1 && piped_io[1].back() == -1)
-        {
-            if(pipe(&piped_io[1][0]) == -1)
-                perror("Error piping");
-        }
-    }
-    else if(IS_PIPE(cur_cmd.conn) && IS_PIPE(next_cmd.conn))
-    {
-        if(piped_io[0].front() == -1 && piped_io[0].back() == -1)
-        {
-            if(pipe(&piped_io[0][0]) == -1)
-                perror("Error piping");
-        }
-        else if(piped_io[1].front() == -1 && piped_io[1].back() == -1)
-        {
-            if(pipe(&piped_io[1][0]) == -1)
-                perror("Error piping");
-        }
-    }
-
-    if(piped_io[0].back() != -1 && piped_io[0].front() == -1)
-    {
-        set_input(cur_io, piped_io[0], saved_io, cur_cmd, next_cmd);
-        set_output(cur_io, piped_io[1], saved_io, cur_cmd, next_cmd);
-    }
-    else if(piped_io[1].back() != -1 && piped_io[1].front() != -1)
-    {
-        set_input(cur_io, piped_io[1], saved_io, cur_cmd, next_cmd);
-        set_output(cur_io, piped_io[0], saved_io, cur_cmd, next_cmd);
-    } 
-    else if(piped_io[0].front() != -1 && piped_io[0].back() != -1)
-    {
-        set_input(cur_io, piped_io[0], saved_io, cur_cmd, next_cmd);
-        set_output(cur_io, piped_io[0], saved_io, cur_cmd, next_cmd);
-    }
-    else if(piped_io[1].front() != -1 && piped_io[1].back() != -1)
-    {
-        set_input(cur_io, piped_io[1], saved_io, cur_cmd, next_cmd);
-        set_output(cur_io, piped_io[1], saved_io, cur_cmd, next_cmd);
-    }
+    set_input(saved_io, chained);
+    set_output(saved_io, chained);
 }
 
-void set_input(vector<int> &cur_io, vector<int> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd)
+void set_input(const vector<int> &saved_io, vector<CmdAndConn> &chained)
 {
-    if(IS_R_I(cur_cmd.conn))
+    if(IS_R_I(chained.front().conn))
     {
-        if((cur_io.front() = open(next_cmd.cmd.front().c_str(), O_RDONLY)) == -1)
+        int fd;
+        if((fd = open(chained.at(1).cmd.front().c_str(), O_RDONLY)) == -1)
             perror("Error opening while setting input");
-        if(dup2(cur_io.front(), STDIN) == -1)
+        if(dup2(fd, STDIN) == -1)
             perror("Error dup2 while setting input");
     }
-    else if(cur_io.back() == piped_io.back())
-    {
-        if(close(piped_io.back()) == -1)
-            perror("error closing pipe");
-        piped_io.back() = -1;
-
-        cur_io.front() = piped_io.front();
-        if(dup2(cur_io.front(), STDIN) == -1)
-            perror("Error using dup2 with pipe on STDIN");
-    }
-    else
-    {
-        cur_io.front() = saved_io.front();
-        if(dup2(cur_io.front(), STDIN) == -1)
-                perror("Error using dup2");
-    }
 }
 
-void set_output(vector<int> &cur_io, vector<int> &piped_io, const vector<int> &saved_io, const CmdAndConn &cur_cmd, const CmdAndConn &next_cmd)
+void set_output(const vector<int> &saved_io, vector<CmdAndConn> &chained)
 {
-    if(IS_R_O(cur_cmd.conn))
+    if(IS_R_O(chained.front().conn))
     {
-        if(( cur_io.back() = open(next_cmd.cmd.front().c_str(),O_CREAT | O_WRONLY | O_TRUNC, 0666) ) == -1)
+        int fd;
+        if(( fd = open(chained.at(1).cmd.front().c_str(), O_CREAT | O_WRONLY | O_TRUNC, 0666) ) == -1)
             perror("Error using open to write to file");
-        if(dup2(cur_io.back(), STDOUT) == -1)
+        if(dup2(fd, STDOUT) == -1)
             perror("Error using dup2 to write to file");
     }
-    else if(IS_R_OA(cur_cmd.conn))
+    else if(chained.size() > 1 && IS_R_O(chained.at(1).conn))
     {
-        if(( cur_io.back() = open(next_cmd.cmd.front().c_str(),O_CREAT | O_WRONLY | O_APPEND, 0666) ) == -1)
-            perror("Error using open to append to file");
-        if(dup2(cur_io.back(), STDOUT) == -1)
-            perror("Error using dup2 to append to file");
+        int fd;
+        if(( fd = open(chained.at(2).cmd.front().c_str(), O_CREAT | O_WRONLY | O_TRUNC, 0666) ) == -1)
+            perror("Error using open to write to file");
+        if(dup2(fd, STDOUT) == -1)
+            perror("Error using dup2 to write to file");
     }
-    else if(IS_PIPE(cur_cmd.conn) || IS_PIPE(next_cmd.conn))
+    else if(IS_R_OA(chained.front().conn))
     {
-        
-        cur_io.back() = piped_io.back();
-        if(dup2(cur_io.back(), STDOUT) == -1)
-            perror("Error using pipe to STDOUT");
+        int fd;
+        if(( fd = open(chained.at(1).cmd.front().c_str(), O_CREAT | O_WRONLY | O_APPEND, 0666) ) == -1)
+            perror("Error using open to write to file");
+        if(dup2(fd, STDOUT) == -1)
+            perror("Error using dup2 to write to file");
+   }
+    else if(chained.size() > 1 && IS_R_OA(chained.at(1).conn))
+    {
+        int fd;
+        if(( fd = open(chained.at(2).cmd.front().c_str(), O_CREAT | O_WRONLY | O_APPEND, 0666) ) == -1)
+            perror("Error using open to write to file");
+        if(dup2(fd, STDOUT) == -1)
+            perror("Error using dup2 to write to file");
     }
     else
-    {
-        cur_io.back() = saved_io.back();
-        if(dup2(cur_io.back(), STDOUT) == -1)
+        if(dup2(saved_io.back(), STDOUT) == -1)
             perror("error dup2");
-    }
 }
 
 
