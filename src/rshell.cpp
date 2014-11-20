@@ -80,8 +80,7 @@ int main()
     //Continue prompting
     while(1)
     {
-        cout << "$ ";
-        //cout << username << "@" << hostname << "$ ";
+        cout << username << "@" << hostname << "$ ";
     
         getline(cin, input);
         splice_input(commands, input);
