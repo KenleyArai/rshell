@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 
 using namespace std;
 
@@ -48,6 +49,10 @@ struct CmdAndConn
 };
 
 
+bool get_exec_path(vector<string> &cmd);
+bool file_exists(const string &path);
+string concat_filenames(const string &path, const string &file);
+bool file_exists(const string &path);
 vector<string> get_paths();
 vector<string> tok_env_var(const char *env_var, const char delim);
 bool run_command(const CmdAndConn &rc);
@@ -128,6 +133,38 @@ int main()
     return 0;
 }
 
+bool get_exec_path(vector<string> &cmd)
+{
+    vector<char*> tokens;
+    vector<string> paths = get_paths();
+
+    for(const auto &it : paths)
+    {
+        string check = concat_filenames(it, cmd.front());
+        if(file_exists(check))
+        {
+            cmd.front() = check;
+            return true;
+        }
+    }
+    return false;
+}
+
+string concat_filenames(const string &path, const string &file)
+{
+    string p(path);
+    if(p.back() != '/')
+        p += '/';
+    p += file;
+    return p;
+}
+
+bool file_exists(const string &path)
+{
+    struct stat buffer;
+    return (stat(path.c_str(), &buffer) == 0);
+}
+
 vector<string> get_paths()
 {
     return tok_env_var(getenv("PATH"), ':');
@@ -162,8 +199,6 @@ bool run_command(const CmdAndConn &rc)
 {
 
     int pid = fork();
-    vector<char*> tokens;
-    tokenize(tokens, rc.cmd);
     int status = 0;
 
     if(pid == -1)
@@ -173,21 +208,14 @@ bool run_command(const CmdAndConn &rc)
     }
     else if(pid == 0)
     {
-        execvp(&tokens[0][0], &tokens[0]);
+        get_exec_path(rc.cmds);
+
         perror("Execvp failed!");
-        cerr<< tokens[0] << endl;
         exit(1);
     }
     else
     {
         wait(&status);
-
-        //Deallocating memory
-        for( size_t i = 0; i < tokens.size(); i++  )
-            delete [] tokens[i];
-
-        //Cleaning up vector
-        tokens.clear();
 
         if(rc.conn == COMMENT)
             return false;
@@ -347,9 +375,6 @@ bool run_piped(vector <CmdAndConn> &cmds)
         perror("Error creating pipes");
 
     bool ret;
-    vector<char*> tokens;
-
-    tokenize(tokens, cmds.front().cmd);
     cmds.erase(cmds.begin());
 
     int pid = fork();
@@ -366,7 +391,7 @@ bool run_piped(vector <CmdAndConn> &cmds)
             perror("Error writing to pipe");
         if(close(pipes[0]) == -1)
             perror("Error closing read end of pipe");
-        execvp(&tokens[0][0], &tokens[0]);
+        get_exec_path(cmds.front().cmd);
         perror("Execvp failed!!");
         exit(1);
     }
@@ -382,13 +407,6 @@ bool run_piped(vector <CmdAndConn> &cmds)
 
         if(IS_PIPE(cmds.front().conn))
             ret = run_piped(cmds);
-
-        //Deallocating memory
-        for( size_t i = 0; i < tokens.size(); i++  )
-            delete [] tokens[i];
-        //Cleaning up vector
-        tokens.clear();
-
     }
 
     //Continue getting commands
@@ -507,10 +525,3 @@ void set_output(const vector<int> &saved_io, vector<CmdAndConn> &chained)
         if(dup2(saved_io.back(), STDOUT) == -1)
             perror("error dup2");
 }
-
-
-
-
-
-
-
