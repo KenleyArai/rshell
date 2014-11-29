@@ -49,13 +49,14 @@ struct CmdAndConn
 };
 
 
+bool my_execvp(const vector<string> &cmds);
 bool get_exec_path(vector<string> &cmd);
 bool file_exists(const string &path);
 string concat_filenames(const string &path, const string &file);
 bool file_exists(const string &path);
 vector<string> get_paths();
 vector<string> tok_env_var(const char *env_var, const char delim);
-bool run_command(const CmdAndConn &rc);
+bool run_command(CmdAndConn &rc);
 void tokenize(vector<char*> &comms, const vector<string> &input);
 void trim_lead_and_trail(string &str);
 void splice_input(vector<CmdAndConn> &commands, const string &input);
@@ -133,12 +134,17 @@ int main()
     return 0;
 }
 
-bool get_exec_path(vector<string> &cmd)
+bool my_execvp(const vector<string> &cmds)
 {
     vector<char*> tokens;
-    vector<string> paths = get_paths();
+    tokenize(tokens, cmds);
 
-    for(const auto &it : paths)
+    return (execv(&tokens[0][0], &tokens[0]) != -1);
+}
+
+bool get_exec_path(vector<string> &cmd)
+{
+    for(const auto &it : get_paths())
     {
         string check = concat_filenames(it, cmd.front());
         if(file_exists(check))
@@ -147,6 +153,7 @@ bool get_exec_path(vector<string> &cmd)
             return true;
         }
     }
+    cerr << "File does not exist" << endl;
     return false;
 }
 
@@ -195,7 +202,7 @@ void splice_input(vector<CmdAndConn> &cmds, const string &input)
     }
 }
 
-bool run_command(const CmdAndConn &rc)
+bool run_command(CmdAndConn &rc)
 {
 
     int pid = fork();
@@ -208,9 +215,8 @@ bool run_command(const CmdAndConn &rc)
     }
     else if(pid == 0)
     {
-        get_exec_path(rc.cmds);
-
-        perror("Execvp failed!");
+        if(get_exec_path(rc.cmd) && my_execvp(rc.cmd))
+                perror("Execvp failed!");
         exit(1);
     }
     else
@@ -391,8 +397,8 @@ bool run_piped(vector <CmdAndConn> &cmds)
             perror("Error writing to pipe");
         if(close(pipes[0]) == -1)
             perror("Error closing read end of pipe");
-        get_exec_path(cmds.front().cmd);
-        perror("Execvp failed!!");
+        if(get_exec_path(cmds.front().cmd) && my_execvp(cmds.front().cmd))
+                perror("Execvp failed!!");
         exit(1);
     }
     else
