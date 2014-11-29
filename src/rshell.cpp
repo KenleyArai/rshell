@@ -56,6 +56,8 @@ bool file_exists(const string &path);
 string concat_filenames(const string &path, const string &file);
 bool file_exists(const string &path);
 vector<string> get_paths();
+string concat_cwd(const vector<string> &cwd);
+vector<string> get_cwd();
 vector<string> tok_env_var(const char *env_var, const char delim);
 bool run_command(CmdAndConn &rc);
 void tokenize(vector<char*> &comms, const vector<string> &input);
@@ -91,7 +93,7 @@ int main()
     //Continue prompting
     while(1)
     {
-        cout << username << "@" << hostname << "$ ";
+        cout << username << "@" << hostname << concat_cwd(get_cwd()) << "$ ";
 
         getline(cin, input);
         splice_input(commands, input);
@@ -189,6 +191,19 @@ bool file_exists(const string &path)
 vector<string> get_paths()
 {
     return tok_env_var(getenv("PATH"), ':');
+}
+
+string concat_cwd(const vector<string> &cwd)
+{
+    if(cwd.begin() + 1 == cwd.end())
+        return "/" + cwd.front() + "/";
+    vector<string> v(cwd.begin()+1, cwd.end());
+    return "/" + cwd.front() + concat_cwd(v);
+}
+
+vector<string> get_cwd()
+{
+    return tok_env_var(get_current_dir_name(), '/');
 }
 
 vector<string> tok_env_var(const char *env_var, const char delim)
