@@ -234,9 +234,14 @@ void splice_input(vector<CmdAndConn> &cmds, const string &input)
 
 bool run_command(CmdAndConn &rc)
 {
+
     if(rc.cmd.front() == "cd")
     {
-        vector<string> full_path = get_cwd();
+        vector<string> full_path;
+
+        if(rc.cmd.at(1).front() != '/')
+            full_path = get_cwd();
+
         full_path.push_back(rc.cmd.at(1));
 
         if(chdir(concat_cwd(full_path).c_str()) == -1)
