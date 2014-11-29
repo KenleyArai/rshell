@@ -1,4 +1,4 @@
-opt= -Wall -Werror -ansi -pedantic -std=c++11
+opt= -Wall -Werror -ansi -pedantic -std=c++1y
 
 all: rshell
 rshell:
