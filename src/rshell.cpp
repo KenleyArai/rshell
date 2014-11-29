@@ -31,7 +31,7 @@ enum CONNECTOR {NEWLINE, COMMENT, S_COLON, AND, OR, PIPE, REDIRECT_INPUT, REDIRE
 #define IS_REDIRECTION(X) IS_R_I(X) || IS_R_O(X) || IS_R_OA(X)
 #define OUTPUT_ONLY (O_CREAT | O_WRONLY | O_TRUNC)
 #define OUTPUT_APND (O_CREAT | O_WRONLY | O_APPEND)
-#define OPEN_MODE(X) IS_R_O(X) ? OUTPUT_ONLY : IS_R_OA(X) ? OUTPUT_APND : O_RDONLY 
+#define OPEN_MODE(X) IS_R_O(X) ? OUTPUT_ONLY : IS_R_OA(X) ? OUTPUT_APND : O_RDONLY
 #define STDIN_OR_STDOUT(X) IS_R_I(X) ? 0 : 1
 #define IS_PIPE(X) X == PIPE
 
@@ -47,6 +47,9 @@ struct CmdAndConn
     }
 };
 
+
+vector<string> get_paths();
+vector<string> tok_env_var(const char *env_var, const char delim);
 bool run_command(const CmdAndConn &rc);
 void tokenize(vector<char*> &comms, const vector<string> &input);
 void trim_lead_and_trail(string &str);
@@ -81,14 +84,14 @@ int main()
     while(1)
     {
         cout << username << "@" << hostname << "$ ";
-    
+
         getline(cin, input);
         splice_input(commands, input);
 
         //After getting input from the user begin dequeing
         //until the vector of commands is empty or logic
         //returns to stop running
-        
+
         while(!commands.empty() && running)
         {
             //Check if input is exit
@@ -123,6 +126,22 @@ int main()
     }
 
     return 0;
+}
+
+vector<string> get_paths()
+{
+    return tok_env_var(getenv("PATH"), ':');
+}
+
+vector<string> tok_env_var(const char *env_var, const char delim)
+{
+    vector<string> v;
+    string tok;
+    istringstream ss(env_var);
+
+    while(getline(ss, tok, delim))
+        v.push_back(tok);
+    return v;
 }
 
 //Splits the commands and connectors into seperate vectors.
@@ -169,7 +188,7 @@ bool run_command(const CmdAndConn &rc)
 
         //Cleaning up vector
         tokens.clear();
-        
+
         if(rc.conn == COMMENT)
             return false;
 
@@ -205,7 +224,7 @@ map<int, CONNECTOR> get_all_conns(const string &input)
 {
     map<int, CONNECTOR>conns_with_pos;
     vector<int> conn_pos = get_all_conns_pos(input);
-    
+
     for(auto it : find_conn_pairs(conn_pos))
     {
         if(input[it] == '&')
@@ -213,9 +232,9 @@ map<int, CONNECTOR> get_all_conns(const string &input)
         else if(input[it] == '|')
             conns_with_pos[it] = OR;
         else if(input[it] == '>')
-            conns_with_pos[it] = REDIRECT_OUT_APPEND;   
+            conns_with_pos[it] = REDIRECT_OUT_APPEND;
     }
-    
+
     delete_conn_pairs(conn_pos);
 
     for(auto it : conn_pos)
@@ -251,17 +270,17 @@ vector< vector<string> > get_all_cmds(const string &input, const map<int, CONNEC
         auto new_end = unique(str.begin(), str.end(), [](const char &lhs, const char &rhs) -> bool{ return (lhs == rhs) && lhs == ' '; });
         str.erase(new_end, str.end());
         trim_lead_and_trail(str);
-        
+
         for(stringstream s(str); s >> tmp; )
             v_str.push_back(tmp);
-        
+
         ret.push_back(v_str);
 
         if(IS_DOUBLE_CHAR(it.second))
             prev = it.first + 2;
         else
             prev = it.first + 1;
-                
+
     }
 
     return ret;
@@ -281,7 +300,7 @@ vector<int> get_all_conns_pos(const string &input)
             ++pos;
         }
     }
-    
+
     sort(ret.begin(), ret.end());
     ret.erase(unique(ret.begin(), ret.end()), ret.end());
 
@@ -305,14 +324,14 @@ vector<int> find_conn_pairs(const vector<int> &all_conns)
 void delete_conn_pairs(vector<int> &all_conns)
 {
     vector<int> all_pairs = find_conn_pairs(all_conns);
-    
+
     for(auto & it : all_pairs)
     {
         auto itt = find(all_conns.begin(), all_conns.end(), it);
 
         if(itt != all_conns.end())
             all_conns.erase(itt);
-        
+
         itt = find(all_conns.begin(), all_conns.end(), it +  1);
 
         if(itt != all_conns.end())
@@ -335,7 +354,7 @@ bool run_piped(vector <CmdAndConn> &cmds)
 
     int pid = fork();
     int status = 0;
-    
+
     if(pid == -1)
     {
         perror("Error with fork()");
@@ -360,7 +379,7 @@ bool run_piped(vector <CmdAndConn> &cmds)
             perror("Error dup2");
         if(close(pipes[1]))
             perror("Error dup2");
-       
+
         if(IS_PIPE(cmds.front().conn))
             ret = run_piped(cmds);
 
@@ -385,14 +404,14 @@ bool run_chained(vector <CmdAndConn> &chained)
         perror("Error saving stdin");
     if((saved_io.back() = dup(STDOUT)) == -1)
         perror("Error saving stdout");
-    
+
     CmdAndConn file;
     file.conn = NEWLINE;
 
     while(!chained.empty())
     {
         set_io(saved_io, chained);
-      
+
         if(IS_PIPE(chained.front().conn))
             ret = run_piped(chained);
         else if(IS_REDIRECTION(chained.front().conn))
@@ -432,7 +451,7 @@ bool run_chained(vector <CmdAndConn> &chained)
     return ret;
 }
 
-void set_io(const vector<int> &saved_io, vector<CmdAndConn> &chained) 
+void set_io(const vector<int> &saved_io, vector<CmdAndConn> &chained)
 {
     set_input(saved_io, chained);
     set_output(saved_io, chained);
