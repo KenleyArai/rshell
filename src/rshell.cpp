@@ -51,7 +51,7 @@ struct CmdAndConn
 
 void ctrl_c(int signum);
 bool my_execvp(const vector<string> &cmds);
-bool get_execupath(vector<string> &cmd);
+int get_exec_path(vector<string> &cmd);
 bool file_exists(const string &path);
 string concat_filenames(const string &path, const string &file);
 bool file_exists(const string &path);
@@ -138,8 +138,6 @@ int main()
 
 void ctrl_c(int signum)
 {
-    cout << "killed child" << endl;
-//  exit(0);
     kill(getpid(), SIGTERM);
 }
 
@@ -149,13 +147,17 @@ bool my_execvp(const vector<string> &cmds)
     tokenize(tokens, cmds);
     bool ret = (execv(&tokens[0][0], &tokens[0]) != -1);
 
+    if(!ret)
+        perror("execv");
+
     for(auto &it : tokens)
         delete[] it;
+
 
     return ret;
 }
 
-bool get_exec_path(vector<string> &cmd)
+int get_exec_path(vector<string> &cmd)
 {
     for(const auto &it : get_paths())
     {
@@ -163,11 +165,10 @@ bool get_exec_path(vector<string> &cmd)
         if(file_exists(check))
         {
             cmd.front() = check;
-            return true;
+            return 1;
         }
     }
-    cerr << "File does not exist" << endl;
-    return false;
+    return -1;
 }
 
 string concat_filenames(const string &path, const string &file)
@@ -236,7 +237,9 @@ bool run_command(CmdAndConn &rc)
     else
     {
         wait(&status);
+
         signal(SIGINT, SIG_IGN);
+
         if(rc.conn == COMMENT)
             return false;
 
