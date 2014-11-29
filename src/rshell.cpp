@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <regex>
 #include <map>
+#include <csignal>
 
 //C libs
 #include <errno.h>
@@ -48,9 +49,9 @@ struct CmdAndConn
     }
 };
 
-
+void ctrl_c(int signum);
 bool my_execvp(const vector<string> &cmds);
-bool get_exec_path(vector<string> &cmd);
+bool get_execupath(vector<string> &cmd);
 bool file_exists(const string &path);
 string concat_filenames(const string &path, const string &file);
 bool file_exists(const string &path);
@@ -73,6 +74,7 @@ void set_output(const vector<int> &saved_io, vector<CmdAndConn> &chained);
 
 int main()
 {
+    signal(SIGINT, SIG_IGN);
     string input;
     vector<CmdAndConn> commands;
     bool running = true;
@@ -134,12 +136,23 @@ int main()
     return 0;
 }
 
+void ctrl_c(int signum)
+{
+    cout << "killed child" << endl;
+//  exit(0);
+    kill(getpid(), SIGTERM);
+}
+
 bool my_execvp(const vector<string> &cmds)
 {
     vector<char*> tokens;
     tokenize(tokens, cmds);
+    bool ret = (execv(&tokens[0][0], &tokens[0]) != -1);
 
-    return (execv(&tokens[0][0], &tokens[0]) != -1);
+    for(auto &it : tokens)
+        delete[] it;
+
+    return ret;
 }
 
 bool get_exec_path(vector<string> &cmd)
@@ -215,6 +228,7 @@ bool run_command(CmdAndConn &rc)
     }
     else if(pid == 0)
     {
+        signal(SIGINT, ctrl_c);
         if(get_exec_path(rc.cmd) && my_execvp(rc.cmd))
                 perror("Execvp failed!");
         exit(1);
@@ -222,7 +236,7 @@ bool run_command(CmdAndConn &rc)
     else
     {
         wait(&status);
-
+        signal(SIGINT, SIG_IGN);
         if(rc.conn == COMMENT)
             return false;
 
