@@ -93,7 +93,7 @@ int main()
     //Continue prompting
     while(1)
     {
-        cout << username << "@" << hostname << concat_cwd(get_cwd()) << "$ ";
+        cout << username << "@" << hostname << ":"  << concat_cwd(get_cwd()) << "$ ";
 
         getline(cin, input);
         splice_input(commands, input);
@@ -196,7 +196,7 @@ vector<string> get_paths()
 string concat_cwd(const vector<string> &cwd)
 {
     if(cwd.begin() + 1 == cwd.end())
-        return "/" + cwd.front() + "/";
+        return "/" + cwd.front();
     vector<string> v(cwd.begin()+1, cwd.end());
     return "/" + cwd.front() + concat_cwd(v);
 }
@@ -213,7 +213,8 @@ vector<string> tok_env_var(const char *env_var, const char delim)
     istringstream ss(env_var);
 
     while(getline(ss, tok, delim))
-        v.push_back(tok);
+        if(tok.length() >= 1)
+            v.push_back(tok);
     return v;
 }
 
@@ -233,6 +234,16 @@ void splice_input(vector<CmdAndConn> &cmds, const string &input)
 
 bool run_command(CmdAndConn &rc)
 {
+    if(rc.cmd.front() == "cd")
+    {
+        vector<string> full_path = get_cwd();
+        full_path.push_back(rc.cmd.at(1));
+
+        if(chdir(concat_cwd(full_path).c_str()) == -1)
+            perror("Error chdir");
+
+        return true;
+    }
 
     int pid = fork();
     int status = 0;
