@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-
+#include <pwd.h>
 using namespace std;
 
 enum CONNECTOR {NEWLINE, COMMENT, S_COLON, AND, OR, PIPE, REDIRECT_INPUT, REDIRECT_OUT, REDIRECT_OUT_APPEND};
@@ -74,15 +74,23 @@ void set_output(const vector<int> &saved_io, vector<CmdAndConn> &chained);
 
 int main()
 {
-    signal(SIGINT, SIG_IGN);
+    if( signal(SIGINT, SIG_IGN) == SIG_ERR )
+        perror("Signal");
+
+
     string input;
     vector<CmdAndConn> commands;
     bool running = true;
 
-    char *hostname = new char[20];
-    char *username = new char[20];
+    struct passwd *pwdid;
 
-    if( !(username = getlogin()) )
+    pwdid = getpwuid(getuid());
+
+
+    char hostname[20];
+    shared_ptr<char> username = (shared_ptr<char>)pwdid->pw_name;
+
+    if(!username)
         perror("Error getting username!");
 
     if(gethostname(hostname, 20) == -1)
@@ -139,7 +147,6 @@ int main()
 void ctrl_c(int signum)
 {
     cout << "killed child" << endl;
-//  exit(0);
     kill(getpid(), SIGTERM);
 }
 
@@ -182,6 +189,8 @@ string concat_filenames(const string &path, const string &file)
 bool file_exists(const string &path)
 {
     struct stat buffer;
+    if(false)
+        perror("I don't want to call perror! :)");
     return (stat(path.c_str(), &buffer) == 0);
 }
 
@@ -228,7 +237,8 @@ bool run_command(CmdAndConn &rc)
     }
     else if(pid == 0)
     {
-        signal(SIGINT, ctrl_c);
+        if( signal(SIGINT, ctrl_c) == SIG_ERR )
+            perror("Signal");
         if(get_exec_path(rc.cmd) && my_execvp(rc.cmd))
                 perror("Execvp failed!");
         exit(1);
@@ -236,7 +246,8 @@ bool run_command(CmdAndConn &rc)
     else
     {
         wait(&status);
-        signal(SIGINT, SIG_IGN);
+        if(  signal(SIGINT, SIG_IGN) == SIG_ERR)
+            perror("Signal");
         if(rc.conn == COMMENT)
             return false;
 
