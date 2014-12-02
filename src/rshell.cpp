@@ -49,6 +49,7 @@ struct CmdAndConn
     }
 };
 
+
 void ctrl_c(int signum);
 bool my_execvp(const vector<string> &cmds);
 int get_exec_path(vector<string> &cmd);
@@ -79,7 +80,6 @@ int main()
     if( signal(SIGINT, SIG_IGN) == SIG_ERR )
         perror("Signal");
 
-
     string input;
     vector<CmdAndConn> commands;
     bool running = true;
@@ -104,7 +104,11 @@ int main()
         cout << username << "@" << hostname << ":"  << concat_cwd(get_cwd()) << "$ ";
 
         getline(cin, input);
-        splice_input(commands, input);
+
+        if(input != "")
+            splice_input(commands, input);
+        else
+            commands.clear();
 
         //After getting input from the user begin dequeing
         //until the vector of commands is empty or logic
@@ -150,6 +154,7 @@ void ctrl_c(int signum)
 {
     kill(getpid(), SIGTERM);
 }
+
 
 bool my_execvp(const vector<string> &cmds)
 {
@@ -272,16 +277,19 @@ bool run_command(CmdAndConn &rc)
     {
         if( signal(SIGINT, ctrl_c) == SIG_ERR )
             perror("Signal");
+
         if(get_exec_path(rc.cmd) && my_execvp(rc.cmd))
                 perror("Execvp failed!");
         exit(1);
     }
     else
     {
-        if( wait(&status) == -1)
-            perror("wait");
-        if(  signal(SIGINT, SIG_IGN) == SIG_ERR)
+        if(wait(&status) == -1)
+            perror("Wait");
+
+        if(signal(SIGINT, SIG_IGN) == SIG_ERR)
             perror("Signal");
+
         if(rc.conn == COMMENT)
             return false;
 
