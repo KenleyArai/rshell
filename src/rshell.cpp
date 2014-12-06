@@ -210,10 +210,10 @@ vector<string> get_paths()
 
 string concat_cwd(const vector<string> &cwd)
 {
-    if(cwd.begin() + 1 == cwd.end())
-        return "/" + cwd.front();
-    vector<string> v(cwd.begin()+1, cwd.end());
-    return "/" + cwd.front() + concat_cwd(v);
+  string result;
+  for(const auto &it : cwd)
+    result += "/" + it;
+  return result;
 }
 
 vector<string> get_cwd()
