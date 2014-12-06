@@ -1,0 +1,74 @@
+Script started on Fri 05 Dec 2014 08:43:08 PM PST
+~
+karai001@hammer $ cs100
+
+===============================================================================
+|									      |
+| You have enabled settings specific for cs100.				      |
+|									      |
+===============================================================================
+
+%%%%%%%%%%karai001@cs100:~ $ ls
+rshell
+%%%%%%%%%%karai001@cs100:~ $ cd rshell/
+l%%%%%%%%%%karai001@cs100:~/rshell ((hw3)) $ ls
+bin  LICENSE  Makefile	README.md  src	tests
+%%%%%%%%%%karai001@cs100:~/rshell ((hw3)) $ make
+[ -d bin ] && rm -fr bin
+mkdir bin
+g++ -Wall -Werror -ansi -pedantic -std=c++11 ./src/rshell.cpp -o ./bin/rshell
+g++ -Wall -Werror -ansi -pedantic -std=c++11 ./src/ls.cpp -o ./bin/ls
+g++ -Wall -Werror -ansi -pedantic -std=c++11 ./src/cp.cpp -o ./bin/cp
+%%%%%%%%%%karai001@cs100:~/rshell ((hw3)) $ bin/rshell
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ ls
+bin  LICENSE  Makefile	README.md  src	tests
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ cd ..
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001$ ls
+rshell
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001$ cd ..
+karai001@hammer.cs.ucr.edu:/home/csmajs$ ls
+/bin/ls: cannot open directory .: Permission denied
+karai001@hammer.cs.ucr.edu:/home/csmajs$ cd karai001
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001$ ls
+rshell
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001$ cd rshell
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ ls
+bin  LICENSE  Makefile	README.md  src	tests
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ cd srs
+Error chdir: No such file or directory
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ cd src
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell/src$ ls
+cp.cpp	ls.cpp	rshell.cpp
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell/src$ cd ..
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ ls
+bin  LICENSE  Makefile	README.md  src	tests
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ cd /
+karai001@hammer.cs.ucr.edu:$ ls
+bin   cgroup  C:\nppdf32Log\debuglog.txt  etc	 home  lib64	   media  mnt  opt   root  selinux  sys	 usr
+boot  class   dev			  extra	 lib   lost+found  misc	  net  proc  sbin  srv	    tmp	 var
+karai001@hammer.cs.ucr.edu:$ cd home/csmajs/karai001
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001$ ls
+rshell
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001$ cd rshell
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ ping google.com
+PING google.com (74.125.239.105) 56(84) bytes of data.
+^C
+--- google.com ping statistics ---
+7 packets transmitted, 0 received, 100% packet loss, time 6958ms
+
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ ls
+bin  LICENSE  Makefile	README.md  src	tests
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ commandthatdoesnotexistss
+execv: No such file or directory
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ extsadasd asda
+execv: No such file or directory
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ ls
+bin  LICENSE  Makefile	README.md  src	tests
+karai001@hammer.cs.ucr.edu:/home/csmajs/karai001/rshell$ exit
+%%%%%%%%%%karai001@cs100:~/rshell ((hw3)) $ exit
+exit
+~
+karai001@hammer $ exit
+exit
+
+Script done on Fri 05 Dec 2014 08:45:03 PM PST
